@@ -8,7 +8,7 @@
       </ul>
     </div>
     <div class="content">
-      <RouterView />
+      <RouterView/>
     </div>
   </div>
 </template>

@@ -35,7 +35,7 @@ input {
   font-size: 1em;
 }
 input:focus {
-  border-bottom: solid 2px #ccc;
+  border-bottom: solid 4px #ccc;
   outline: none;
 }
 input[type='number'] {

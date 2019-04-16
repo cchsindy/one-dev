@@ -1,6 +1,7 @@
 <template>
   <div>
     <h1>Volunteer</h1>
-    <BaseButton>Test</BaseButton>
+    <BaseInput label="Name:"/>
+    <BaseButton>Sign Me Up!</BaseButton>
   </div>
 </template>
