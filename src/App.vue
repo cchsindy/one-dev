@@ -4,6 +4,7 @@
       <ul>
         <li><router-link to="/">Dashboard</router-link></li>
         <li><router-link to="/announcements">Announcements</router-link></li>
+        <li><router-link to="/volunteer">Volunteer</router-link></li>
       </ul>
     </div>
     <div class="content">

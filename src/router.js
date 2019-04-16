@@ -16,6 +16,11 @@ export default new Router({
       path: '/announcements',
       name: 'announcements',
       component: () => import('./views/Announcements.vue')
+    },
+    {
+      path: '/volunteer',
+      name: 'volunteer',
+      component: () => import('./views/Volunteer.vue')
     }
   ]
 })
