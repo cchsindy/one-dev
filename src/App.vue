@@ -2,13 +2,13 @@
   <div id="app">
     <div class="nav">
       <ul>
-        <li><router-link to="/">Dashboard</router-link></li>
-        <li><router-link to="/announcements">Announcements</router-link></li>
-        <li><router-link to="/volunteer">Volunteer</router-link></li>
+        <li><RouterLink to="/">Dashboard</RouterLink></li>
+        <li><RouterLink to="/announcements">Announcements</RouterLink></li>
+        <li><RouterLink to="/volunteer">Volunteer</RouterLink></li>
       </ul>
     </div>
     <div class="content">
-      <router-view />
+      <RouterView />
     </div>
   </div>
 </template>
