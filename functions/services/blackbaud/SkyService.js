@@ -4,6 +4,10 @@ module.exports = class SkyService {
     this.refresh_token = 'fa109218fe854932867618290f1f6f1a'
   }
 
+  isRunning() {
+    return 'yes it is instantiated!!'
+  }
+
   // STEPS
   // 1. load existing tokens from file
   // 2. try making API call
