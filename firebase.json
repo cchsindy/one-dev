@@ -8,6 +8,10 @@
     ],
     "rewrites": [
       {
+        "source": "/bb",
+        "function": "blackbaud"
+      },
+      {
         "source": "**",
         "destination": "/index.html"
       }
