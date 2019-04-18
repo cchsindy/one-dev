@@ -4,6 +4,13 @@ module.exports = class SkyService {
     this.refresh_token = 'fa109218fe854932867618290f1f6f1a'
   }
 
+  // STEPS
+  // 1. load existing tokens from file
+  // 2. try making API call
+  // 3. if 401 Not Authorized then refresh token
+  // 4. save new tokens to file
+  // 5. retry API call (keep a queue?)
+
   // methods to load/save tokens to local file
 
   // method to get refresh token
@@ -15,7 +22,7 @@ module.exports = class SkyService {
     //     'Content-Type': 'application/x-www-form-urlencoded'
     //   },
     //   body:
-    //     'grant_type=refresh_token&refresh_token=a92337bf8a9143b8a2ee4f359c950ee6'
+    //     'grant_type=refresh_token&refresh_token=' + this.refresh_token
     // }).catch(error => 
     //   console.log(error)
     // ).then(response => 
