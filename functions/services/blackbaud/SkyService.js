@@ -1,11 +1,19 @@
+const fs = require('fs')
+
 module.exports = class SkyService {
   constructor() {
-    this.access_token,
-    this.refresh_token
+    try {
+      const data = fs.readFileSync('./re.token')
+      const json = JSON.parse(data)
+      this.access_token = json.access_token
+      this.refresh_token = json.refresh_token
+    } catch (err) {
+      console.log(err.code)
+    }
   }
 
   isRunning() {
-    return 'yes it is instantiated!!'
+    return this.access_token
   }
 
   // STEPS
