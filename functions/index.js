@@ -5,7 +5,7 @@ exports.skyRequests = functions.firestore
   .document('skyRequests/{id}')
   .onCreate((snap, context) => {
     const data = snap.data()
-    console.log(id, data)
+    console.log(context.params.id, data)
   })
 
 exports.blackbaud = functions.https.onRequest((request, response) => {
