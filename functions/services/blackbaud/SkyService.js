@@ -1,9 +1,11 @@
 const fs = require('fs')
+const fetch = require('node-fetch')
+const axios = require('axios')
 
 module.exports = class SkyService {
   constructor() {
     try {
-      const data = fs.readFileSync('./re.token')
+      const data = fs.readFileSync('./services/blackbaud/re.token')
       const json = JSON.parse(data)
       this.access_token = json.access_token
       this.refresh_token = json.refresh_token
@@ -12,8 +14,26 @@ module.exports = class SkyService {
     }
   }
 
-  isRunning() {
-    return this.access_token
+  getConstituent(id) {
+    axios.get(`https://api.sky.blackbaud.com/constituent/v1/constituents/${id}`, {
+      headers: {
+        'Bb-Api-Subscription-Key': '0e6dc7f6dd6148f99b5c8468320ebcd6',
+        Authorization: 'Bearer ' + this.access_token
+      }  
+    })
+      .then(res => { return res.data })
+      .catch(err => { return err })
+    // fetch(`https://api.sky.blackbaud.com/constituent/v1/constituents/${id}`, {
+    //   headers: {
+    //     'Bb-Api-Subscription-Key': '0e6dc7f6dd6148f99b5c8468320ebcd6',
+    //     Authorization: 'Bearer ' + this.access_token
+    //   }
+    // })
+    //   .catch(err => { return err })
+    //   .then(res => res.json())
+    //   .then(json => {
+    //     return json
+    //   })
   }
 
   // STEPS

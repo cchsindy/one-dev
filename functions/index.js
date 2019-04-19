@@ -4,5 +4,12 @@ const SkyService = require('./services/blackbaud/SkyService')
 
 exports.blackbaud = functions.https.onRequest((request, response) => {
   const ss = new SkyService
-  response.send(ss.isRunning())
+  ss.getConstituent(100)
+    .then(data => {
+      response.send(data)
+      return
+    })
+    .catch(err => {
+      response.send(err)
+    })
 })
