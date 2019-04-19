@@ -1,6 +1,13 @@
 const functions = require('firebase-functions');
 const SkyService = require('./services/blackbaud/SkyService')
 
+exports.skyRequests = functions.firestore
+  .document('skyRequests/{id}')
+  .onCreate((snap, context) => {
+    const data = snap.data()
+    console.log(id, data)
+  })
+
 exports.blackbaud = functions.https.onRequest((request, response) => {
   const ss = new SkyService
   ss.getConstituent(100)
