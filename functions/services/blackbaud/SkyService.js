@@ -1,6 +1,6 @@
 const fs = require('fs')
-const fetch = require('node-fetch')
 const axios = require('axios')
+const qs = require('qs')
 
 module.exports = class SkyService {
   constructor() {
@@ -15,25 +15,43 @@ module.exports = class SkyService {
   }
 
   getConstituent(id) {
-    axios.get(`https://api.sky.blackbaud.com/constituent/v1/constituents/${id}`, {
-      headers: {
-        'Bb-Api-Subscription-Key': '0e6dc7f6dd6148f99b5c8468320ebcd6',
-        Authorization: 'Bearer ' + this.access_token
-      }  
+    return new Promise((resolve, reject) => {
+      axios.get(`https://api.sky.blackbaud.com/constituent/v1/constituents/${id}`, {
+        headers: {
+          'Bb-Api-Subscription-Key': '0e6dc7f6dd6148f99b5c8468320ebcd6',
+          Authorization: 'Bearer ' + this.access_token
+        }  
+      })
+        .then(res => {
+          resolve(res.data)
+          return
+        })
+        .catch(err => {
+          reject(err.response.data)
+        })
     })
-      .then(res => { return res.data })
-      .catch(err => { return err })
-    // fetch(`https://api.sky.blackbaud.com/constituent/v1/constituents/${id}`, {
-    //   headers: {
-    //     'Bb-Api-Subscription-Key': '0e6dc7f6dd6148f99b5c8468320ebcd6',
-    //     Authorization: 'Bearer ' + this.access_token
-    //   }
-    // })
-    //   .catch(err => { return err })
-    //   .then(res => res.json())
-    //   .then(json => {
-    //     return json
-    //   })
+  }
+
+  refreshToken() {
+    return new Promise((resolve, reject) => {
+      let data = qs.stringify({
+        grant_type: 'refresh_token',
+        refresh_token: this.refresh_token
+      })
+      axios.post('https://oauth2.sky.blackbaud.com/token', data, {
+        headers: {
+          'Authorization': 'Basic MjlhNjFiNjQtM2M4OS00ODI3LWJkMjUtNmUwYzlhMmVhOWJmOnZqa0ZsTFo5WWJYMzlsRkltUUF5b05KK29TK2FUWjdCVmJaSk5DNkkwQVU9',
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
+      })
+        .then(res => {
+          resolve(res.data)
+          return
+        })
+        .catch(err => {
+          reject(err.response.data)
+        })
+    })
   }
 
   // STEPS
@@ -44,25 +62,6 @@ module.exports = class SkyService {
   // 5. retry API call (keep a queue?)
 
   // methods to load/save tokens to local file
-
-  // method to get refresh token
-  // async refreshToken() {
-    // fetch('https://oauth2.sky.blackbaud.com/token', {
-    //   method: 'post',
-    //   headers: {
-    //     'Authorization': 'Basic MjlhNjFiNjQtM2M4OS00ODI3LWJkMjUtNmUwYzlhMmVhOWJmOnZqa0ZsTFo5WWJYMzlsRkltUUF5b05KK29TK2FUWjdCVmJaSk5DNkkwQVU9',
-    //     'Content-Type': 'application/x-www-form-urlencoded'
-    //   },
-    //   body:
-    //     'grant_type=refresh_token&refresh_token=' + this.refresh_token
-    // }).catch(error => 
-    //   console.log(error)
-    // ).then(response => 
-    //   response.json()
-    // ).then(json => 
-    //   console.log(json)
-    // )
-  // }
 
   // methods to work with API
 }
