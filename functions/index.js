@@ -10,12 +10,20 @@ exports.skyRequests = functions.firestore
 
 exports.blackbaud = functions.https.onRequest((request, response) => {
   const ss = new SkyService
-  ss.getConstituent(100)
+  ss.refreshToken()
     .then(res => {
       response.send(res)
       return
     })
     .catch(err => {
-      response.send(err)
+      console.log(err)
     })
+  // ss.getConstituent(100)
+  //   .then(res => {
+  //     response.send(res)
+  //     return
+  //   })
+  //   .catch(err => {
+  //     response.send(err)
+  //   })
 })

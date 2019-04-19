@@ -14,44 +14,40 @@ module.exports = class SkyService {
     }
   }
 
-  getConstituent(id) {
-    return new Promise((resolve, reject) => {
-      axios.get(`https://api.sky.blackbaud.com/constituent/v1/constituents/${id}`, {
-        headers: {
-          'Bb-Api-Subscription-Key': '0e6dc7f6dd6148f99b5c8468320ebcd6',
-          Authorization: 'Bearer ' + this.access_token
-        }  
-      })
-        .then(res => {
-          resolve(res.data)
-          return
+  async getConstituent(id) {
+    try {
+      const res = await axios.get(`https://api.sky.blackbaud.com/constituent/v1/constituents/${id}`, {
+          headers: {
+            'Bb-Api-Subscription-Key': '0e6dc7f6dd6148f99b5c8468320ebcd6',
+            Authorization: 'Bearer ' + this.access_token
+          }  
         })
-        .catch(err => {
-          reject(err.response.data)
-        })
-    })
-  }
+      return res.data
+    } catch (err) {
+      return err.response.data
+    }
+}
 
-  refreshToken() {
-    return new Promise((resolve, reject) => {
-      let data = qs.stringify({
+  async refreshToken() {
+    try {
+      const rd = qs.stringify({
         grant_type: 'refresh_token',
         refresh_token: this.refresh_token
       })
-      axios.post('https://oauth2.sky.blackbaud.com/token', data, {
+      const res = await axios.post('https://oauth2.sky.blackbaud.com/token', rd, {
         headers: {
           'Authorization': 'Basic MjlhNjFiNjQtM2M4OS00ODI3LWJkMjUtNmUwYzlhMmVhOWJmOnZqa0ZsTFo5WWJYMzlsRkltUUF5b05KK29TK2FUWjdCVmJaSk5DNkkwQVU9',
           'Content-Type': 'application/x-www-form-urlencoded'
         }
       })
-        .then(res => {
-          resolve(res.data)
-          return
-        })
-        .catch(err => {
-          reject(err.response.data)
-        })
-    })
+      console.log(res.data)
+      this.access_token = res.data.access_token
+      this.refresh_token = res.data.refresh_token
+      fs.writeFileSync('./re.token', JSON.stringify(res.data))
+      return 'token refreshed'
+    } catch (err) {
+      return err
+    }
   }
 
   // STEPS
