@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1>Blackbaud</h1>
-    <BaseButton @click="callBB">Create Doc</BaseButton>
+    <BaseButton @click="callBB">Get Constituent</BaseButton>
   </div>
 </template>
 
@@ -9,11 +9,7 @@
   export default {
     methods: {
       callBB() {
-        const col = this.$store.state.fbStore.collection('skyRequests')
-        col.add({
-          topic: 'programming',
-          language: 'javascript'
-        })
+        
       }
     }
   }
