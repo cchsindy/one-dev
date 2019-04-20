@@ -1,6 +1,6 @@
 const functions = require('firebase-functions');
 const cors = require('cors')({ origin: true })
-const FirebaseService = require('./services/firebase/FirebaseService')
+const FirestoreService = require('./services/firebase/FirestoreService')
 const SkyService = require('./services/blackbaud/SkyService')
 
 // exports.skyRequests = functions.firestore
@@ -13,18 +13,18 @@ const SkyService = require('./services/blackbaud/SkyService')
 exports.blackbaud = functions.https.onRequest((request, response) => {
   return cors(request, response, async () => {
     try {
-      const fbs = new FirebaseService
-      const token = await fbs.loadSkyToken()
+      const fs = new FirestoreService
+      const token = await fs.loadSkyToken()
       const ss = new SkyService(token)
       let con = await ss.getConstituent(150)
-      if (con === null) {
+      if (!con) {
         const newToken = await ss.refreshToken()
         if (newToken) {
-          await fbs.saveSkyToken(newToken)
+          await fs.saveSkyToken(newToken)
           con = await ss.getConstituent(150)
         } 
       }
-      if (con === null) con = 'Unable to get constituent.'
+      if (!con) con = 'Unable to get constituent.'
       response.send(con)
     } catch (err) {
       response.send(err)

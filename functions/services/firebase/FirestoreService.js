@@ -1,4 +1,4 @@
-module.exports = class FirebaseService {
+module.exports = class FirestoreService {
   constructor() {
     const admin = require('firebase-admin')
     const serviceAccount = require('./serviceAccountKey.json')
@@ -18,7 +18,8 @@ module.exports = class FirebaseService {
         .get()
       return doc.data()
     } catch (err) {
-      return err
+      console.log(err)
+      return {}
     }
   }
 
@@ -29,7 +30,8 @@ module.exports = class FirebaseService {
         .set(token)
       return 'saved'
     } catch (err) {
-      return err
+      console.log(err)
+      return {}
     }
   }
 }
