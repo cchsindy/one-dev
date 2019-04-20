@@ -12,6 +12,7 @@ export default new Vuex.Store({
     blackbaud
   },
   state: {
+    fbFunctions: firebase.myFunctions,
     fbStore: firebase.myStore
   }
 })

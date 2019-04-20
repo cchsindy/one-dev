@@ -3,6 +3,7 @@ const cors = require('cors')({ origin: true })
 const FirestoreService = require('./services/firebase/FirestoreService')
 const SkyService = require('./services/blackbaud/SkyService')
 
+// FIRESTORE TRIGGER
 // exports.skyRequests = functions.firestore
 //   .document('skyRequests/{id}')
 //   .onCreate((snap, context) => {
@@ -10,6 +11,14 @@ const SkyService = require('./services/blackbaud/SkyService')
 //     console.log(context.params.id, data)
 //   })
 
+// DIRECT CALL
+exports.direct = functions.https.onCall((data, context) => {
+  return {
+    status: 'success'
+  }
+})
+
+// HTTPS REQUEST
 exports.blackbaud = functions.https.onRequest((request, response) => {
   return cors(request, response, async () => {
     try {
