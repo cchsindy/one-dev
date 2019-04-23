@@ -23,6 +23,11 @@ export default new Router({
       component: () => import('./views/Blackbaud.vue')
     },
     {
+      path: '/canvas',
+      name: 'canvas',
+      component: () => import('./views/Canvas.vue')
+    },
+    {
       path: '/volunteer',
       name: 'volunteer',
       component: () => import('./views/Volunteer.vue')

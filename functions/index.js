@@ -1,5 +1,6 @@
 const functions = require('firebase-functions');
 const cors = require('cors')({ origin: true })
+const CanvasService = require('./services/canvas/CanvasService')
 const FirestoreService = require('./services/firebase/FirestoreService')
 const SkyService = require('./services/blackbaud/SkyService')
 
@@ -10,6 +11,14 @@ const SkyService = require('./services/blackbaud/SkyService')
 //     const data = snap.data()
 //     console.log(context.params.id, data)
 //   })
+
+exports.canvas = functions.https.onCall(async (data, context) => {
+  const cs = new CanvasService
+  const user = await cs.getUser(data.name)
+  // console.log(user)
+  const grades = await cs.getGrades(user[0].id, 53)
+  return grades
+})
 
 // DIRECT CALL
 exports.direct = functions.https.onCall((data, context) => {

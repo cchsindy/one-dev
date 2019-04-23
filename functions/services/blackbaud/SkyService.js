@@ -1,15 +1,21 @@
 module.exports = class SkyService {
   constructor(token) {
     this.axios = require('axios')
+    this.config = require('./config')
+    this.sky = this.axios.create({
+      baseURL: this.config.baseUrl,
+      headers: {
+        'Bb-Api-Subscription-Key': this.config.subKey
+      }
+    })
     this.access_token = token.access_token
     this.refresh_token = token.refresh_token
   }
   
   async getConstituent(id) {
     try {
-      const res = await this.axios.get(`https://api.sky.blackbaud.com/constituent/v1/constituents/${id}`, {
+      const res = await this.sky.get(`constituents/${id}`, {
         headers: {
-          'Bb-Api-Subscription-Key': '0e6dc7f6dd6148f99b5c8468320ebcd6',
           Authorization: 'Bearer ' + this.access_token
         }  
       })
