@@ -1,12 +1,17 @@
 <template>
-  <div>
+  <div class="textarea" :class="{ focused: hasFocus }">
     <label v-if="label">{{ label }}</label>
-    <textarea :value="value" @input="updateValue" v-bind="$attrs"></textarea>
+    <textarea ref="ta" :value="value" @blur="onBlur" @focus="onFocus" @input="updateValue" v-bind="$attrs"></textarea>
   </div>
 </template>
 
 <script>
 export default {
+  data: () => {
+    return {
+      hasFocus: false
+    }
+  },
   inheritAttrs: false,
   props: {
     label: {
@@ -16,30 +21,50 @@ export default {
     value: [String, Number]
   },
   methods: {
+    onBlur() {
+      this.hasFocus = false
+    },
+    onFocus() {
+      this.hasFocus = true
+    },
     updateValue(event) {
+      this.$refs.ta.style.height = 'auto'
+      this.$refs.ta.style.height = this.$refs.ta.scrollHeight + 'px'
       this.$emit('input', event.target.value)
     }
+  },
+  updated: () => {
+    this.$nextTick(() => {
+      this.$refs.ta.style.height = 'auto'
+      this.$refs.ta.style.height = this.$refs.ta.scrollHeight + 'px'
+    })
   }
 }
 </script>
 
 <style scoped>
+.textarea {
+  border-radius: 1vw;
+  padding: 1vw;
+}
+.focused {
+  background: #cfc;
+}
 label {
   color: #777;
   display: block;
   font-style: italic;
 }
 textarea {
-  border: 1px solid #ccc;
+  background: transparent;
+  border: none;
   box-sizing: border-box;
-  display: block;
+  display: flex;
   font-family: 'Work Sans', sans-serif;
   font-size: 1em;
-  height: 20vh;
-  margin-bottom: 1vh;
   outline: none;
-  padding: 1vw;
+  overflow: hidden;
   resize: none;
-  width: 100%;
+  width: 40vw;
 }
 </style>

@@ -17,32 +17,28 @@ export default {
 
 <style scoped>
 .button {
-  background: #771E18;
-  border: none;
+  background: #fff;
+  border: solid 2px #ccc;
   border-radius: 1em;
-  color: #aaa;
+  color: #444;
   font-family: 'Work Sans', sans-serif;
   font-size: 1em;
   font-weight: 700;
+  margin: 1vw;
+  outline: none;
   padding: 1vw 1.5vw;
 }
 .button:focus {
-  /* border: solid 2px #000; */
-  color: #fff;
-  outline: none;
+  background: #cfc;
 }
 .button:hover:not(:disabled) {
   cursor: pointer;
 }
 .button:disabled {
-  background: #aaa;
-  color: #ccc;
+  color: #ddd;
 }
 .small {
   font-size: 0.6em;
-}
-.right {
-  float: right;
-  margin-left: 1vw;
+  padding: 0.5vw 1vw;
 }
 </style>
