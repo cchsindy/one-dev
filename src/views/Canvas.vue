@@ -2,6 +2,7 @@
   <div>
     <h1>Canvas</h1>
     <BaseInput label="Name:" v-model="name"/>
+    <br>
     <BaseButton @click="loadSchedule">Load Schedule</BaseButton>
     <div v-for="s in schedule" :key="s.name">
       <p>{{s.name}} : {{s.section}} : {{s.grade}}</p>
