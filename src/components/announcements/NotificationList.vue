@@ -2,9 +2,9 @@
   <div class="notification-list">
     <div v-for="item of items" :key="item.id" class="notification-item">
       <BaseButton class="small">Remove</BaseButton>
-      <BaseInput label="Student:" :value="item.student"/>
-      <BaseInput label="Location:" :value="item.location"/>
-      <BaseInput label="Until:" type="time" :value="item.expiration"/>
+      <BaseInput label="Student:" v-model="item.student"/>
+      <BaseInput label="Location:" v-model="item.location"/>
+      <BaseInput label="Until:" type="time" v-model="item.expiration"/>
     </div>
   </div>
 </template>
