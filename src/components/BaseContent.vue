@@ -13,7 +13,7 @@
 
 <script>
 import { position } from 'caret-pos'
-import { setTimeout } from 'timers';
+import { setTimeout } from 'timers'
 
 export default {
   data: () => {
@@ -32,6 +32,7 @@ export default {
   },
   watch: {
     value: function() {
+      // needs delay to work - still glitchy
       setTimeout(() => position(this.$refs.edit, this.caret), 5)
     }
   },
