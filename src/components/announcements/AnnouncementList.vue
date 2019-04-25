@@ -12,29 +12,13 @@
 </template>
 
 <script>
-  export default {
-    data: () => {
-      return {
-        items: [
-        {
-          id: 1,
-          message:
-            'My First Announcement is a long announcement with lots of words to fill up the screen.',
-          fromDate: '2018-11-21',
-          toDate: '2018-11-22',
-          user: 'bradspencer'
-        },
-        {
-          id: 2,
-          message: 'My Second Announcement',
-          fromDate: '2018-11-23',
-          toDate: '2018-11-25',
-          user: 'bradspencer'
-        }
-        ]
-      }
-    }
-  }
+import { mapState } from 'vuex'
+
+export default {
+  computed: mapState({
+    items: state => state.announcements.announcements
+  })
+}
 </script>
 
 <style scoped>

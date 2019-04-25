@@ -17,7 +17,11 @@ export default {
   components: {
     AnnouncementList,
     NotificationList
+  },
+  created() {
+    this.$store.dispatch('fetchAnnouncements')
   }
+
 }
 </script>
 
