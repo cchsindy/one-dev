@@ -2,10 +2,10 @@
   <div class="announcement-list">
     <div v-for="item of items" :key="item.id" class="announcement-item">
       <BaseButton class="small">Remove</BaseButton>
-      <BaseContent label="Message:" :value="item.message"/>
+      <BaseContent label="Message:" v-model="item.message"/>
       <div class="item-date">
-        <BaseInput label="From:" type="date" :value="item.fromDate"/>
-        <BaseInput label="To:" type="date" :value="item.toDate"/>
+        <BaseInput label="From:" type="date" v-model="item.fromDate"/>
+        <BaseInput label="To:" type="date" v-model="item.toDate"/>
       </div>
     </div>
   </div>

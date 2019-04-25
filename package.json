@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@blackbaud/auth-client": "^2.13.0",
+    "caret-pos": "^1.2.1",
     "core-js": "^2.6.5",
     "firebase": "^5.10.0",
     "vue": "^2.6.10",

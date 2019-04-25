@@ -1,31 +1,39 @@
 <template>
   <div class="content-editor" :class="{ focused: hasFocus }">
     <label v-if="label">{{ label }}</label>
-    {{ decorator }}
-    <div class="editable-div" contenteditable="true" @blur="onBlur" @focus="onFocus" @input="updateValue" v-bind="$attrs">
-      {{ value }}
-    </div>
+    <div ref="edit" class="editable-div"
+      contenteditable="true"
+      v-text="value"
+      @blur="onBlur"
+      @focus="onFocus"
+      @input="updateValue"
+      v-bind="$attrs"/>
   </div>
 </template>
 
 <script>
-  export default {
+import { position } from 'caret-pos'
+import { setTimeout } from 'timers';
+
+export default {
   data: () => {
     return {
-      hasFocus: false
+      hasFocus: false,
+      caret: 0
     }
   },
   inheritAttrs: false,
   props: {
-    decorator: {
-      type: String,
-      default: ''
-    },
     label: {
       type: String,
       default: ''
     },
     value: [String, Number]
+  },
+  watch: {
+    value: function() {
+      setTimeout(() => position(this.$refs.edit, this.caret), 5)
+    }
   },
   methods: {
     onBlur() {
@@ -35,7 +43,8 @@
       this.hasFocus = true
     },
     updateValue(event) {
-      this.$emit('input', event.target.value)
+      this.caret = position(event.target).pos
+      this.$emit('input', event.target.innerText)
     }
   }
 }
