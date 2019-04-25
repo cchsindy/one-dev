@@ -33,11 +33,9 @@ export default {
       this.$emit('input', event.target.value)
     }
   },
-  updated: () => {
-    this.$nextTick(() => {
-      this.$refs.ta.style.height = 'auto'
-      this.$refs.ta.style.height = this.$refs.ta.scrollHeight + 'px'
-    })
+  mounted: function() {
+    this.$refs.ta.style.height = 'auto'
+    this.$refs.ta.style.height = this.$refs.ta.scrollHeight + 'px'
   }
 }
 </script>
@@ -65,6 +63,11 @@ textarea {
   outline: none;
   overflow: hidden;
   resize: none;
-  width: 40vw;
+  width: 45vw;
+}
+@media screen and (max-width: 1000px) {
+  textarea {
+    width: 85vw;
+  }
 }
 </style>
