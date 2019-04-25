@@ -2,10 +2,7 @@
   <div class="announcement-list">
     <div v-for="item of items" :key="item.id" class="announcement-item">
       <BaseButton class="small">Remove</BaseButton>
-      <BaseTextArea label="Message:" :value="item.message"/>
-      <!-- <div class="item-content" contenteditable="true">
-        {{ item.content }}
-      </div> -->
+      <BaseContent label="Message:" :value="item.message"/>
       <div class="item-date">
         <BaseInput label="From:" type="date" :value="item.fromDate"/>
         <BaseInput label="To:" type="date" :value="item.toDate"/>
@@ -49,17 +46,6 @@
   align-items: center;
   margin-bottom: 2vh;
   padding: 1vw;
-}
-.id {
-  margin: 1vw;
-}
-.item-content {
-  border-radius: 1vw;
-  padding: 1vw;
-}
-.item-content:focus {
-  background: #cfc;
-  outline: none;
 }
 .item-date {
   display: flex;
