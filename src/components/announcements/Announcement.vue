@@ -46,7 +46,6 @@ export default {
   watch: {
     announcement: {
       handler: function() {
-        // also check store if modified from outside the app?
         if (this.isReset) {
           this.hideSave = true
           this.isReset = false
