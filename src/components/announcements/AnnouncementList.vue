@@ -1,38 +1,34 @@
 <template>
-  <div class="announcement-list">
-    <div v-for="item of items" :key="item.id" class="announcement-item">
-      <BaseButton class="small">Remove</BaseButton>
-      <BaseContent label="Message:" v-model="item.message"/>
-      <div class="item-date">
-        <BaseInput label="From:" type="date" v-model="item.fromDate"/>
-        <BaseInput label="To:" type="date" v-model="item.toDate"/>
-      </div>
-    </div>
+  <div>
+    <Announcement v-for="item of announcements" :key="item.id" :announcement="item" />
+    <BaseButton @click="addAnnouncement">Add New Announcement</BaseButton>
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex'
+import moment from 'moment'
+import Announcement from '@/components/announcements/Announcement'
 
 export default {
+  components: {
+    Announcement
+  },
   computed: mapState({
-    items: state => state.announcements.announcements
-  })
+    announcements: state => state.announcements.announcements
+  }),
+  methods: {
+    addAnnouncement() {
+      const now = moment()
+      const newAnnouncement = {
+        id: 'NEW' + now,
+        message: 'your message here...',
+        fromDate: now.format('YYYY-MM-DD'),
+        toDate: now.add(1, 'day').format('YYYY-MM-DD'),
+        user: 'bradspencer'
+      }
+      this.$store.dispatch('addAnnouncement', newAnnouncement)
+    }
+  }
 }
 </script>
-
-<style scoped>
-.announcement-item {
-  border: solid 2px #ccc;
-  border-radius: 2vw;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  margin-bottom: 2vh;
-  padding: 1vw;
-}
-.item-date {
-  display: flex;
-  flex-wrap: wrap;
-}
-</style>
