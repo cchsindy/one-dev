@@ -1,8 +1,8 @@
 <template>
   <div class="announcement-item">
-    <BaseButton @click="removeAnnouncement" class="small">Remove</BaseButton>
-    <BaseButton @click="saveAnnouncement" class="small">Save</BaseButton>
-    <BaseButton @click="cancelAnnouncement" class="small">Cancel</BaseButton>
+    <BaseButton @click="removeAnnouncement" :disabled="isNew" class="small">Remove</BaseButton>
+    <BaseButton @click="saveAnnouncement" :disabled="hideSave" class="small">Save</BaseButton>
+    <BaseButton @click="cancelAnnouncement" :disabled="hideSave" class="small">Cancel</BaseButton>
     <BaseContent label="Message:" v-model="announcement.message"/>
     <div class="announcement-date">
       <BaseInput label="From:" type="date" v-model="announcement.fromDate"/>
@@ -12,25 +12,52 @@
 </template>
 
 <script>
-  export default {
-    methods: {
-      cancelAnnouncement() {
-        this.$store.dispatch('cancelAnnouncement', this.announcement.id)
-      },
-      removeAnnouncement() {
-        this.$store.dispatch('removeAnnouncement', this.announcement.id)
-      },
-      saveAnnouncement() {
-        this.$store.dispatch('saveAnnouncement', this.announcement.id)
-      }
+export default {
+  computed: {
+    isNew() {
+      return this.announcement.id.substring(0, 3) === 'NEW'
+    }
+  },
+  data: () => {
+    return {
+      hideSave: true
+    }
+  },
+  methods: {
+    cancelAnnouncement() {
+      this.$store.dispatch('cancelAnnouncement', this.announcement.id)
+      this.isReset = true
     },
-    props: {
-      announcement: {
-        type: Object,
-        required: true
-      }
+    removeAnnouncement() {
+      this.$store.dispatch('removeAnnouncement', this.announcement.id)
+    },
+    saveAnnouncement() {
+      this.$store.dispatch('saveAnnouncement', this.announcement.id)
+      this.hideSave = true
+      this.isReset = true
+    }
+  },
+  props: {
+    announcement: {
+      type: Object,
+      required: true
+    }
+  },
+  watch: {
+    announcement: {
+      handler: function() {
+        // also check store if modified from outside the app?
+        if (this.isReset) {
+          this.hideSave = true
+          this.isReset = false
+        } else {
+          this.hideSave = false
+        }
+      },
+      deep: true
     }
   }
+}
 </script>
 
 <style scoped>
