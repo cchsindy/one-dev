@@ -4,7 +4,6 @@
     <AnnouncementList/>
     <h1>Notifications</h1>
     <NotificationList/>
-    <BaseButton>Add New Notification</BaseButton>
   </div>
 </template>
 
@@ -19,6 +18,7 @@ export default {
   },
   created() {
     this.$store.dispatch('fetchAnnouncements')
+    this.$store.dispatch('fetchNotifications')
   }
 }
 </script>

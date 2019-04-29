@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Announcement v-for="item of announcements" :key="item.id" :announcement="item" />
+    <Announcement v-for="item of announcements" :key="item.id" :announcement="item"/>
     <BaseButton @click="addAnnouncement">Add New Announcement</BaseButton>
   </div>
 </template>
