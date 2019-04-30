@@ -1,17 +1,26 @@
 <template>
   <div class="notification-item">
-    <BaseButton @click="removeNotification" :disabled="isNew" class="small">Remove</BaseButton>
-    <BaseButton @click="saveNotification" :disabled="hideSave || !isValid" class="small">Save</BaseButton>
-    <BaseButton @click="cancelNotification" :disabled="hideSave && !isNew" class="small">Cancel</BaseButton>
-    <BaseInput label="Student:" v-model="notification.student"/>
-    <BaseInput label="Location:" v-model="notification.location"/>
-    <BaseInput label="Until:" type="time" v-model="notification.until"/>
+    <div v-if="currentUser || isAdmin">
+      <BaseButton @click="removeNotification" :disabled="isNew" class="small">Remove</BaseButton>
+      <BaseButton @click="saveNotification" :disabled="hideSave || !isValid" class="small">Save</BaseButton>
+      <BaseButton @click="cancelNotification" :disabled="hideSave && !isNew" class="small">Cancel</BaseButton>
+    </div>
+    <BaseInput label="Student:" v-model="notification.student" :disabled="!currentUser && !isAdmin"/>
+    <BaseInput label="Location:" v-model="notification.location" :disabled="!currentUser && !isAdmin"/>
+    <BaseInput label="Until:" type="time" v-model="notification.until" :disabled="!currentUser && !isAdmin"/>
+    <div class="notification-user">{{ notification.user }}</div>
   </div>
 </template>
 
 <script>
 export default {
   computed: {
+    currentUser() {
+      return this.notification.user === this.$store.getters.user
+    },
+    isAdmin() {
+      return false
+    },
     isNew() {
       return this.notification.id.substring(0, 3) === 'NEW'
     },
@@ -71,5 +80,9 @@ export default {
   align-items: center;
   margin-bottom: 2vh;
   padding: 1vw;
+}
+.notification-user {
+  color: #ccc;
+  font-style: italic;
 }
 </style>

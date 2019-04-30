@@ -1,13 +1,14 @@
 <template>
   <div class="content-editor" :class="{ focused: hasFocus }">
     <label v-if="label">{{ label }}</label>
-    <div ref="edit" class="editable-div"
+    <div v-if="!disabled" ref="edit" class="editable-div"
       contenteditable="true"
       v-text="value"
       @blur="onBlur"
       @focus="onFocus"
       @input="updateValue"
       v-bind="$attrs"/>
+    <div v-else v-text="value"/>
   </div>
 </template>
 
@@ -28,7 +29,8 @@ export default {
       type: String,
       default: ''
     },
-    value: [String, Number]
+    value: [String, Number],
+    disabled: Boolean
   },
   watch: {
     value: function() {
