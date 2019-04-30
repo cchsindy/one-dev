@@ -19,6 +19,9 @@ export default {
       return this.notification.user === this.$store.getters.user
     },
     isAdmin() {
+      if (this.$store.getters.roles) {
+        return this.$store.getters.roles.includes('Admin')
+      }
       return false
     },
     isNew() {

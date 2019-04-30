@@ -1,24 +1,51 @@
 <template>
   <div id="app">
-    <div class="nav">
-      <ul>
-        <li><RouterLink to="/">Dashboard</RouterLink></li>
-        <li><RouterLink to="/announcements">Announcements</RouterLink></li>
-        <li><RouterLink to="/blackbaud">Blackbaud</RouterLink></li>
-        <li><RouterLink to="/canvas">Canvas</RouterLink></li>
-        <li><RouterLink to="/volunteer">Volunteer</RouterLink></li>
-      </ul>
+    <Account :user="user" :error="error"/>
+    <div class="error" v-if="error">Error: {{ error.message }}</div>
+    <div v-if="user">
+      <div class="nav">
+        <ul>
+          <li><RouterLink to="/">Dashboard</RouterLink></li>
+          <li><RouterLink to="/announcements">Announcements</RouterLink></li>
+          <li><RouterLink to="/blackbaud">Blackbaud</RouterLink></li>
+          <li><RouterLink to="/canvas">Canvas</RouterLink></li>
+          <li><RouterLink to="/volunteer">Volunteer</RouterLink></li>
+        </ul>
+      </div>
+      <div class="content">
+        <RouterView/>
+      </div>
     </div>
-    <div class="content">
-      <RouterView/>
+    <div v-else>
+      <i>* You must be logged in to use this site.</i>
     </div>
   </div>
 </template>
 
 <script>
+import Account from '@/components/user/Account'
+
 export default {
   name: 'app',
   components: {
+    Account
+  },
+  computed: {
+    user() {
+      return this.$store.getters.user
+    },
+    error() {
+      return this.$store.getters.error
+    },
+    isAdmin() {
+      if (this.$store.getters.roles) {
+        return this.$store.getters.roles.includes('Admin')
+      }
+      return false
+    }
+  },
+  mounted() {
+    this.$store.dispatch('initAuth')
   }
 }
 </script>

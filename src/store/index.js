@@ -14,7 +14,9 @@ export default new Vuex.Store({
     user
   },
   state: {
+    fbAuth: firebase.myAuth,
     fbFunctions: firebase.myFunctions,
+    fbGoogle: firebase.myGoogle,
     fbStore: firebase.myStore
   }
 })
