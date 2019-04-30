@@ -25,6 +25,7 @@ const actions = {
     commit('CANCEL_NOTIFICATION', payload)
   },
   fetchAnnouncements({ commit, rootState }) {
+    commit('CLEAR_ANNOUNCEMENTS')
     const ref = rootState.fbStore.collection('announcements')
     ref.orderBy('toDate', 'desc').onSnapshot(snapshot => {
       snapshot.docChanges().forEach(change => {
@@ -39,6 +40,7 @@ const actions = {
     })
   },
   fetchNotifications({ commit, rootState }) {
+    commit('CLEAR_NOTIFICATIONS')
     const ref = rootState.fbStore.collection('notifications')
     ref.orderBy('until', 'desc').onSnapshot(snapshot => {
       snapshot.docChanges().forEach(change => {
@@ -152,6 +154,14 @@ const mutations = {
         JSON.parse(JSON.stringify(state.cachedNotifications[index]))
       )
     }
+  },
+  CLEAR_ANNOUNCEMENTS(state) {
+    state.announcements = []
+    state.cachedAnnouncements = []
+  },
+  CLEAR_NOTIFICATIONS(state) {
+    state.notifications = []
+    state.cachedNotifications = []
   },
   MODIFY_ANNOUNCEMENT(state, announcement) {
     const index = state.announcements.findIndex(a => {
