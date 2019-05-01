@@ -2,7 +2,7 @@
   <div>
     <h1>Blackbaud</h1>
     <BaseButton @click="callBB">Get Constituent</BaseButton>
-    <p>A little change.</p>
+    <p>{{ skyData }}</p>
   </div>
 </template>
 
