@@ -15,7 +15,8 @@ export default {
     Announcement
   },
   computed: mapState({
-    announcements: state => state.announcements.announcements
+    announcements: state => state.announcements.announcements,
+    user: state => state.user
   }),
   methods: {
     addAnnouncement() {
@@ -25,7 +26,7 @@ export default {
         message: 'your message here...',
         fromDate: now.format('YYYY-MM-DD'),
         toDate: now.add(1, 'day').format('YYYY-MM-DD'),
-        user: 'bradspencer'
+        user: this.user.user
       }
       this.$store.dispatch('addAnnouncement', newAnnouncement)
     }

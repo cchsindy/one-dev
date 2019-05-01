@@ -15,7 +15,8 @@ export default {
     Notification
   },
   computed: mapState({
-    notifications: state => state.announcements.notifications
+    notifications: state => state.announcements.notifications,
+    user: state => state.user
   }),
   methods: {
     addNotification() {
@@ -25,7 +26,7 @@ export default {
         student: 'student name...',
         location: 'my room',
         until: now.add(1, 'hour').format('hh:mm'),
-        user: 'bradspencer'
+        user: this.user.user
       }
       this.$store.dispatch('addNotification', newNotification)
     }

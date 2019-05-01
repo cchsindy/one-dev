@@ -1,6 +1,8 @@
 <template>
   <div id="app">
-    <Account :user="user" :error="error"/>
+    <div class="account">
+      <Account :user="user" :error="error"/>
+    </div>
     <div class="error" v-if="error">Error: {{ error.message }}</div>
     <div v-if="user">
       <div class="nav">
@@ -17,7 +19,9 @@
       </div>
     </div>
     <div v-else>
-      <i>* You must be logged in to use this site.</i>
+      <div class="not-logged-in">
+        <i>* You must be logged in to use this site.</i>
+      </div>
     </div>
   </div>
 </template>
@@ -68,6 +72,10 @@ h1, h2, h3 {
 #app {
   font-family: 'Work Sans', sans-serif;
 }
+.account {
+  display: flex;
+  justify-content: flex-end;
+}
 .content {
   padding: 2vh;
 }
@@ -87,5 +95,8 @@ h1, h2, h3 {
 .nav a {
   color: #444;
   text-decoration: none;
+}
+.not-logged-in {
+  text-align: center;
 }
 </style>
