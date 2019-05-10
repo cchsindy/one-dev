@@ -11,6 +11,18 @@ module.exports = class FirestoreService {
     this.myStore = admin.firestore()
   }
 
+  async loadOnToken() {
+    try {
+      const doc = await this.myStore
+        .doc('onToken')
+        .get()
+      return doc.data()
+    } catch (err) {
+      console.log(err)
+      return ''
+    }
+  }
+
   async loadSkyToken() {
     try {
       const doc = await this.myStore
@@ -20,6 +32,18 @@ module.exports = class FirestoreService {
     } catch (err) {
       console.log(err)
       return {}
+    }
+  }
+
+  async saveOnToken(token) {
+    try {
+      await this.myStore
+        .doc('onToken')
+        .set(token)
+      return 'saved'
+    } catch (err) {
+      console.log(err)
+      return ''
     }
   }
 

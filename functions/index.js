@@ -27,6 +27,26 @@ exports.direct = functions.https.onCall((data, context) => {
   }
 })
 
+exports.onapi = functions.https.onCall(async (data, context) => {
+  try {
+    const fs = new FirestoreService
+    const token = await fs.loadOnToken()
+    const os = new OnService(token)
+    let res = await os.getUser(5488245)
+    if (!res) {
+      const newToken = await os.refreshToken()
+      if (newToken) {
+        await fs.saveOnToken(newToken)
+        res = await os.getUser(5488245)
+      } 
+    }
+    if (!res) res = 'Unable to get user.'
+    return res
+  } catch (err) {
+    return err
+  }
+})
+
 // HTTPS REQUEST
 exports.blackbaud = functions.https.onRequest((request, response) => {
   return cors(request, response, async () => {

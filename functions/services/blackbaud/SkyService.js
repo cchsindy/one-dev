@@ -3,9 +3,9 @@ module.exports = class SkyService {
     this.axios = require('axios')
     this.config = require('./config')
     this.sky = this.axios.create({
-      baseURL: this.config.baseUrl,
+      baseURL: this.config.sky.baseUrl,
       headers: {
-        'Bb-Api-Subscription-Key': this.config.subKey
+        'Bb-Api-Subscription-Key': this.config.sky.subKey
       }
     })
     this.access_token = token.access_token
