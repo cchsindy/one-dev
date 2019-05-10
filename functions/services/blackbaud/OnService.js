@@ -5,7 +5,7 @@ module.exports = class OnService {
     this.on = this.axios.create({
       baseURL: this.config.on.baseUrl
     })
-    this.token = token
+    this.token = token.Token || ''
   }
   
   async getUser(id) {
@@ -15,6 +15,7 @@ module.exports = class OnService {
           t: this.token
         }  
       })
+      console.log(res.data)
       return res.data
     } catch (err) {
       console.log(err.response.data)
@@ -34,7 +35,7 @@ module.exports = class OnService {
         password: this.config.on.password
       })
       this.token = res.data.Token
-      return res.data.Token
+      return res.data
     } catch (err) {
       console.log(err.response.data)
       return null

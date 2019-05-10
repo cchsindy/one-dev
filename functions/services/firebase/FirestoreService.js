@@ -3,11 +3,19 @@ module.exports = class FirestoreService {
     const admin = require('firebase-admin')
     const serviceAccount = require('./serviceAccountKey.json')
     // if (!admin.apps.length) {
+    //   admin.initializeApp({
+    //     credential: admin.credential.cert(serviceAccount),
+    //     databaseURL: 'https://my-covenant-dev.firebaseio.com'
+    //   })
+    // }
+    try {
       admin.initializeApp({
         credential: admin.credential.cert(serviceAccount),
         databaseURL: 'https://my-covenant-dev.firebaseio.com'
       })
-    // }
+    } catch (err) {
+      // do nothing
+    }
     this.myStore = admin.firestore()
   }
 
@@ -19,7 +27,7 @@ module.exports = class FirestoreService {
       return doc.data()
     } catch (err) {
       console.log(err)
-      return ''
+      return {}
     }
   }
 
@@ -43,7 +51,7 @@ module.exports = class FirestoreService {
       return 'saved'
     } catch (err) {
       console.log(err)
-      return ''
+      return {}
     }
   }
 
