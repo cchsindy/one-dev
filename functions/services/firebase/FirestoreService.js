@@ -2,19 +2,19 @@ module.exports = class FirestoreService {
   constructor() {
     const admin = require('firebase-admin')
     const serviceAccount = require('./serviceAccountKey.json')
-    if (!admin.apps.length) {
+    // if (!admin.apps.length) {
       admin.initializeApp({
         credential: admin.credential.cert(serviceAccount),
         databaseURL: 'https://my-covenant-dev.firebaseio.com'
       })
-    }
+    // }
     this.myStore = admin.firestore()
   }
 
   async loadOnToken() {
     try {
       const doc = await this.myStore
-        .doc('onToken')
+        .doc('onTokens/token')
         .get()
       return doc.data()
     } catch (err) {
@@ -38,7 +38,7 @@ module.exports = class FirestoreService {
   async saveOnToken(token) {
     try {
       await this.myStore
-        .doc('onToken')
+        .doc('onTokens/token')
         .set(token)
       return 'saved'
     } catch (err) {

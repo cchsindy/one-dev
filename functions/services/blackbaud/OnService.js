@@ -34,7 +34,7 @@ module.exports = class OnService {
         password: this.config.on.password
       })
       this.token = res.data.Token
-      return res.data
+      return res.data.Token
     } catch (err) {
       console.log(err.response.data)
       return null

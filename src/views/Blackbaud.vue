@@ -1,8 +1,8 @@
 <template>
   <div>
     <h1>Blackbaud</h1>
-    <BaseButton @click="callBB">Get Constituent</BaseButton>
-    <p>{{ skyData }}</p>
+    <BaseButton @click="callBB">Get User</BaseButton>
+    <p>{{ myData }}</p>
   </div>
 </template>
 
@@ -10,15 +10,15 @@
   export default {
     data: () => {
       return {
-        skyData: null
+        myData: null
       }
     },
     methods: {
       callBB() {
-        const d = this.$store.state.fbFunctions.httpsCallable('direct')
-        d({ send: 'this' })
+        const d = this.$store.state.fbFunctions.httpsCallable('onapi')
+        d({ userId: 5488245 })
           .then(result => {
-            this.skyData = result.data
+            this.myData = result.data
           })
       }
     }

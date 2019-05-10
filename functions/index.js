@@ -2,6 +2,7 @@ const functions = require('firebase-functions');
 const cors = require('cors')({ origin: true })
 const CanvasService = require('./services/canvas/CanvasService')
 const FirestoreService = require('./services/firebase/FirestoreService')
+const OnService = require('./services/blackbaud/OnService')
 const SkyService = require('./services/blackbaud/SkyService')
 
 // FIRESTORE TRIGGER
@@ -32,12 +33,12 @@ exports.onapi = functions.https.onCall(async (data, context) => {
     const fs = new FirestoreService
     const token = await fs.loadOnToken()
     const os = new OnService(token)
-    let res = await os.getUser(5488245)
+    let res = await os.getUser(data.userId)
     if (!res) {
       const newToken = await os.refreshToken()
       if (newToken) {
         await fs.saveOnToken(newToken)
-        res = await os.getUser(5488245)
+        res = await os.getUser(data.userId)
       } 
     }
     if (!res) res = 'Unable to get user.'
