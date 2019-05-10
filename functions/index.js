@@ -29,14 +29,14 @@ exports.onapi = functions.https.onCall(async (data, context) => {
     const os = new OnService(token)
     let res = await os.getRoles()
     // let res = await os.getUser(data.userId)
-    // if (!res) {
-    //   const newToken = await os.refreshToken()
-    //   if (newToken) {
-    //     await fs.saveOnToken(newToken)
-    //     res = await os.getUser(data.userId)
-    //   } 
-    // }
-    // if (!res) res = 'Unable to get user.'
+    if (!res) {
+      const newToken = await os.refreshToken()
+      if (newToken) {
+        await fs.saveOnToken(newToken)
+        res = await os.getRoles()
+      } 
+    }
+    if (!res) res = 'Unable to get user.'
     return res
   } catch (err) {
     return err

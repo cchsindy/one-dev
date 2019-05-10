@@ -22,6 +22,7 @@ module.exports = class OnService {
     }
   }
 
+  // All School role 62829
   async getRoles() {
     try {
       const res = await this.on.get('role/ListAll/', {
