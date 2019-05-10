@@ -15,7 +15,20 @@ module.exports = class OnService {
           t: this.token
         }  
       })
-      console.log(res.data)
+      return res.data
+    } catch (err) {
+      console.log(err.response.data)
+      return null
+    }
+  }
+
+  async getRoles() {
+    try {
+      const res = await this.on.get('role/ListAll/', {
+        params: {
+          t: this.token
+        }
+      })
       return res.data
     } catch (err) {
       console.log(err.response.data)
