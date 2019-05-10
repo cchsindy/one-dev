@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1>Blackbaud</h1>
-    <BaseInput label="Id:" v-model="id"/>
+    <BaseInput label="Last name:" v-model="lastname"/>
     <br>
     <BaseButton @click="callBB">Get User</BaseButton>
     <p>{{ myData }}</p>
@@ -12,14 +12,14 @@
   export default {
     data: () => {
       return {
-        id: 0,
+        lastname: '',
         myData: null
       }
     },
     methods: {
       callBB() {
         const d = this.$store.state.fbFunctions.httpsCallable('onapi')
-        d({ userId: this.id })
+        d({ lastname: this.lastname })
           .then(result => {
             this.myData = result.data
           })

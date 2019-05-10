@@ -8,11 +8,13 @@ module.exports = class OnService {
     this.token = token.Token || ''
   }
   
-  async getUser(id) {
+  async getUser(lastname) {
     try {
-      const res = await this.on.get(`user/${id}`, {
+      const res = await this.on.get('user/all', {
         params: {
-          t: this.token
+          t: this.token,
+          roleIDs: 62829,
+          lastname: lastname
         }  
       })
       return res.data
