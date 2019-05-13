@@ -8,6 +8,21 @@ module.exports = class OnService {
     this.token = token.Token || ''
   }
   
+  async fetchData(url, params) {
+    try {
+      params.t = this.token
+      const res = await this.on.get(url, { params })
+      return res.data
+    } catch (err) {
+      console.log(err.response.data)
+      return null
+    }
+  }
+
+  async postData(url, data) {
+    // generic method to post data
+  }
+
   async getUser(lastname) {
     try {
       const res = await this.on.get('user/all', {
