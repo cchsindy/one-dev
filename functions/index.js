@@ -27,16 +27,15 @@ exports.onapi = functions.https.onCall(async (data, context) => {
     const fs = new FirestoreService
     const token = await fs.loadOnToken()
     const os = new OnService(token)
-    // let res = await os.getRoles()
-    let res = await os.getUser(data.lastname)
+    let res = await os.fetchData(data.url, data.params)
     if (!res) {
       const newToken = await os.refreshToken()
       if (newToken) {
         await fs.saveOnToken(newToken)
-        res = await os.getUser(data.lastname)
+        res = await os.fetchData(data.url, data.params)
       } 
     }
-    if (!res) res = 'Unable to get user.'
+    if (!res) res = 'Unable to fetch data.'
     return res
   } catch (err) {
     return err

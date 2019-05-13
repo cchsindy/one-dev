@@ -19,7 +19,11 @@
     methods: {
       callBB() {
         const d = this.$store.state.fbFunctions.httpsCallable('onapi')
-        d({ lastname: this.lastname })
+        d({ url: 'user/all', params: {
+          roleIDs: 62829,
+          lastname: this.lastname
+          }
+        })
           .then(result => {
             this.myData = result.data
           })
