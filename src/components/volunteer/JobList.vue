@@ -25,7 +25,26 @@ export default {
             {
               id: 1,
               member: 'Brad',
-              hours: 7
+              email: 'brad@mail.com',
+              hours: 7,
+              timesheet: [
+                {
+                  id: 1,
+                  date: '2019-5-17',
+                  hours: 4
+                },
+                {
+                  id: 2,
+                  date: '2019-5-16',
+                  hours: 2.5
+                },
+              ]
+            },
+            {
+              id: 2,
+              member: 'Joe',
+              email: 'joe@smith.com',
+              hours: 0
             }
           ]
         },
@@ -37,11 +56,6 @@ export default {
           to: 'to date',
           skills: 'list of skills needed',
           volunteers: [
-            {
-              id: 1,
-              member: 'Isaac',
-              hours: 93
-            }
           ]
         }
       ]
