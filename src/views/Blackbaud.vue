@@ -4,7 +4,9 @@
     <BaseInput label="Last name:" v-model="lastname"/>
     <br>
     <BaseButton @click="callBB">Get User</BaseButton>
-    <p>{{ myData }}</p>
+    <p v-for="item in myData" :key="item.UserId">
+      {{item.FirstName}} {{item.LastName}}
+    </p>
   </div>
 </template>
 
