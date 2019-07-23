@@ -11,12 +11,40 @@ module.exports = class CanvasService {
     })
   }
 
+  async getCourseSections(courseId) {
+    try {
+      const res = await this.canvas
+        .get(`courses/${courseId}/sections`)
+      return res.data
+    } catch (err) {
+      console.log(err.response.data)
+      return null
+    }
+  }
+
   async getUser(name) {
     try {
       const res = await this.canvas
         .get('accounts/1/users', {
           params: {
             search_term: name
+          }
+        })
+      return res.data
+    } catch (err) {
+      console.log(err.response.data)
+      return null
+    }
+  }
+
+  async getUserCourses(userId) {
+    try {
+      const res = await this.canvas
+        .get(`users/${userId}/courses`, {
+          params: {
+            include: ['term'],
+            enrollment_state: 'active',
+            per_page: 100
           }
         })
       return res.data

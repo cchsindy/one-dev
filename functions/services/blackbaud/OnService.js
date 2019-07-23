@@ -53,6 +53,36 @@ module.exports = class OnService {
       return null
     }
   }
+
+  async getSchoolLevels() {
+    try {
+      const res = await this.on.get('schoolinfo/schoollevel/', {
+        params: {
+          t: this.token
+        }
+      })
+      return res.data
+    } catch (err) {
+      console.log(err.response.data)
+      return null
+    }
+  }
+
+  async getSections() {
+    try {
+      const res = await this.on.get('academics/section/', {
+        params: {
+          t: this.token,
+          schoolYear: '2019 - 2020',
+          levelNum: 2175
+        }
+      })
+      return res.data
+    } catch (err) {
+      console.log(err.response.data)
+      return null
+    }
+  }
   
   async refreshToken() {
     try {

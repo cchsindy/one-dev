@@ -22,7 +22,7 @@
       loadSchedule() {
         this.schedule = []
         const d = this.$store.state.fbFunctions.httpsCallable('canvas')
-        d({ name: this.name })
+        d({ UserId: this.name })
           .then(result => {
             this.schedule = result.data
           })
