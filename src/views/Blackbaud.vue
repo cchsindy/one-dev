@@ -21,8 +21,9 @@
     methods: {
       callBB() {
         const d = this.$store.state.fbFunctions.httpsCallable('onapi')
-        d({ url: 'academics/enrollment', params: {
-          sectionID: 92116980
+        d({ url: 'academics/section', params: {
+            schoolYear: '2019 - 2020',
+            levelNum: 2175
           }
         })
           .then(result => {
@@ -31,6 +32,13 @@
       }
     }
   }
+
+
+        // d({ url: 'academics/enrollment', params: {
+        //   sectionID: 92116980
+        //   }
+        // })
+
 
 
         // d({ url: 'academics/TeacherSection', params: {
