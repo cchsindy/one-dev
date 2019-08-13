@@ -75,9 +75,9 @@ import { setInterval } from 'timers';
       },
       getuser() {
         const d = this.$store.state.fbFunctions.httpsCallable('onapi')
-        d({ url: `user/5531012`, params: {} })
+        d({ url: `list/91346`, params: {} })
           .then(result => {
-            return result.data.HostId
+            this.user = result.data
           })
       }
     }
