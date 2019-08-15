@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import { setInterval } from 'timers';
+import { setInterval } from 'timers'
   export default {
     data: () => {
       return {
