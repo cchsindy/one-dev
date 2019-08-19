@@ -16,12 +16,12 @@ const SkyService = require('./services/blackbaud/SkyService')
 // DIRECT CALL
 exports.canvas = functions.https.onCall(async (data, context) => {
   const cs = new CanvasService
-  // const user = await cs.getUser(data.name)
-  // console.log(user)
-  // const grades = await cs.getGrades(user[0].id, 53)
-  const sections = await cs.getCourseSections(data.courseId)
+  const user = await cs.getUser(data.name)
+  console.log(user)
+  const grades = await cs.getGrades(user[0].id, 86)
+  // const sections = await cs.getCourseSections(data.courseId)
   // const courses = await cs.getUserCourses(data.UserId)
-  return sections
+  return grades
 })
 
 exports.onapi = functions.https.onCall(async (data, context) => {
