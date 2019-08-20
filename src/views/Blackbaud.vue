@@ -75,7 +75,7 @@ import { setInterval } from 'timers'
       },
       getuser() {
         const d = this.$store.state.fbFunctions.httpsCallable('onapi')
-        d({ url: `list/91346`, params: {} })
+        d({ url: `list/91578`, params: {} })
           .then(result => {
             this.user = result.data
           })
@@ -83,6 +83,8 @@ import { setInterval } from 'timers'
     }
   }
 
+// 91578 NWEA
+// 91346 STN
 
         // d({ url: 'academics/enrollment', params: {
         //   sectionID: 92116980
