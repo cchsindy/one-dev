@@ -11,10 +11,45 @@ module.exports = class CanvasService {
     })
   }
 
+  async fetchData(url, params) {
+    try {
+      const res = await this.canvas.get(url, { params })
+      return res.data
+    } catch (err) {
+      console.log(err.response.data)
+      return null
+    }
+  }
+
+  async deleteData(url, params) {
+    try {
+      const res = await this.canvas.delete(url, { params })
+      return res.data
+    } catch (err) {
+      console.log(err.response.data)
+      return null
+    }
+  }
+
   async getCourseSections(courseId) {
     try {
       const res = await this.canvas
         .get(`courses/${courseId}/sections`)
+      return res.data
+    } catch (err) {
+      console.log(err.response.data)
+      return null
+    }
+  }
+
+  async getEnrollments(courseId) {
+    try {
+      const res = await this.canvas
+        .get(`courses/${courseId}/enrollments`, {
+          params: {
+            per_page: 200
+          }
+        })
       return res.data
     } catch (err) {
       console.log(err.response.data)

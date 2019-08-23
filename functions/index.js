@@ -24,6 +24,18 @@ exports.canvas = functions.https.onCall(async (data, context) => {
   return grades
 })
 
+exports.canvasFetch = functions.https.onCall(async (data, context) => {
+  const cs = new CanvasService
+  const response = await cs.fetchData(data.url, data.params)
+  return response
+})
+
+exports.canvasDelete = functions.https.onCall(async (data, context) => {
+  const cs = new CanvasService
+  const response = await cs.deleteData(data.url, data.params)
+  return response
+})
+
 exports.onapi = functions.https.onCall(async (data, context) => {
   try {
     const fs = new FirestoreService
