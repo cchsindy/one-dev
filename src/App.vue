@@ -11,6 +11,7 @@
           <li><RouterLink to="/announcements">Announcements</RouterLink></li>
           <li><RouterLink to="/blackbaud">Blackbaud</RouterLink></li>
           <li><RouterLink to="/canvas">Canvas</RouterLink></li>
+          <li><RouterLink to="/sync">Sync</RouterLink></li>
           <li><RouterLink to="/volunteer">Volunteer</RouterLink></li>
         </ul>
       </div>

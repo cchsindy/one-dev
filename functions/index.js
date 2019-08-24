@@ -56,18 +56,38 @@ exports.onapi = functions.https.onCall(async (data, context) => {
   }
 })
 
+exports.skyapi = functions.https.onCall(async (data, context) => {
+  try {
+    const fs = new FirestoreService
+    const token = await fs.loadSkyToken(data.product)
+    const ss = new SkyService(token)
+    let res = await ss.getData(data.url, data.params)
+    if (!res) {
+      const newToken = await ss.refreshToken()
+      if (newToken) {
+        await fs.saveSkyToken(data.product, newToken)
+        res = await ss.getData(data.url, data.params)
+      } 
+    }
+    if (!res) res = 'Unable to get data.'
+    return res
+  } catch (err) {
+    return err
+  }
+})
+
 // HTTPS REQUEST
 exports.blackbaud = functions.https.onRequest((request, response) => {
   return cors(request, response, async () => {
     try {
       const fs = new FirestoreService
-      const token = await fs.loadSkyToken()
+      const token = await fs.loadSkyToken(request.product)
       const ss = new SkyService(token)
       let con = await ss.getConstituent(150)
       if (!con) {
         const newToken = await ss.refreshToken()
         if (newToken) {
-          await fs.saveSkyToken(newToken)
+          await fs.saveSkyToken(request.product, newToken)
           con = await ss.getConstituent(150)
         } 
       }
