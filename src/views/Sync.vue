@@ -16,12 +16,12 @@
     methods: {
       runSync() {
         const sky = this.$store.state.fbFunctions.httpsCallable('skyapi')
-        sky({ product: 'school', url: 'users', params: {
-            roles: '62830'
+        sky({ product: 'school', url: 'users/extended', params: {
+            base_role_ids: '14' //'62830'
           }
         })
           .then(result => {
-            this.blackbaudDiff = result.data
+            this.blackbaudDiff = result.data.value
           })
       }
     }
