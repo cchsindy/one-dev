@@ -16,8 +16,8 @@
     methods: {
       runSync() {
         const sky = this.$store.state.fbFunctions.httpsCallable('skyapi')
-        sky({ product: 'school', url: 'venues/buildings', params: {
-            
+        sky({ product: 'school', url: 'users', params: {
+            roles: '62830'
           }
         })
           .then(result => {
