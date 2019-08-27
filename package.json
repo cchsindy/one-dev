@@ -10,7 +10,6 @@
   "dependencies": {
     "@blackbaud/auth-client": "^2.17.2",
     "caret-pos": "^1.2.1",
-    "core-js": "^3.2.1",
     "firebase": "^6.4.2",
     "moment": "^2.24.0",
     "vue": "^2.6.10",
