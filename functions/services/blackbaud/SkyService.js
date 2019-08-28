@@ -11,6 +11,21 @@ module.exports = class SkyService {
     this.access_token = token.access_token
     this.refresh_token = token.refresh_token
   }
+
+  async getData(url, params) {
+    try {
+      const res = await this.sky.get(url, {
+        headers: {
+          Authorization: 'Bearer ' + this.access_token
+        }, 
+        params
+      })
+      return res.data
+    } catch (err) {
+      console.log(err.response.data)
+      return null
+    }
+  }
   
   async getConstituent(id) {
     try {

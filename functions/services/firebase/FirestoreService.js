@@ -31,10 +31,10 @@ module.exports = class FirestoreService {
     }
   }
 
-  async loadSkyToken() {
+  async loadSkyToken(product) {
     try {
       const doc = await this.myStore
-        .doc('skyTokens/re')
+        .doc(`skyTokens/${product}`)
         .get()
       return doc.data()
     } catch (err) {
@@ -55,10 +55,10 @@ module.exports = class FirestoreService {
     }
   }
 
-  async saveSkyToken(token) {
+  async saveSkyToken(product, token) {
     try {
       await this.myStore
-        .doc('skyTokens/re')
+        .doc(`skyTokens/${product}`)
         .set(token)
       return 'saved'
     } catch (err) {

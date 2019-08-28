@@ -28,6 +28,11 @@ export default new Router({
       component: () => import('./views/Canvas.vue')
     },
     {
+      path: '/sync',
+      name: 'sync',
+      component: () => import('./views/Sync.vue')
+    },
+    {
       path: '/volunteer',
       name: 'volunteer',
       component: () => import('./views/Volunteer.vue')
