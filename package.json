@@ -11,7 +11,7 @@
     "@blackbaud/auth-client": "^2.17.0",
     "caret-pos": "^1.2.1",
     "core-js": "^2.6.9",
-    "firebase": "^5.11.1",
+    "firebase": "^6.4.2",
     "moment": "^2.24.0",
     "vue": "^2.6.10",
     "vue-router": "^3.0.7",
