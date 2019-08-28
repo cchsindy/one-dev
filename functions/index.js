@@ -61,12 +61,12 @@ exports.skyapi = functions.https.onCall(async (data, context) => {
     const fs = new FirestoreService
     const token = await fs.loadSkyToken(data.product)
     const ss = new SkyService(token)
-    let res = await ss.getData(data.url, data.params)
+    let res = await ss.getData(data.product + '/v1/' + data.url, data.params)
     if (!res) {
       const newToken = await ss.refreshToken()
       if (newToken) {
         await fs.saveSkyToken(data.product, newToken)
-        res = await ss.getData(data.url, data.params)
+        res = await ss.getData(data.product + '/v1/' + data.url, data.params)
       } 
     }
     if (!res) res = 'Unable to get data.'

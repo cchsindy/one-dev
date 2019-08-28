@@ -17,8 +17,8 @@ export default {
   methods: {
   },
   created() {
-    this.$store.dispatch('getBlackbaudStudents')
-    this.$store.dispatch('getCanvasStudents')
+    this.$store.dispatch('getBlackbaudSections')
+    this.$store.dispatch('getCanvasCourses', 2359)
   }
 }
 </script>

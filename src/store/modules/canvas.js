@@ -7,12 +7,25 @@ const getters = {
 }
 
 const actions = {
+  getCanvasCourses({ commit, rootState }, id) {
+    commit('CLEAR_CANVAS_STUDENTS')
+    const canvas = rootState.fbFunctions.httpsCallable('canvasFetch')
+    canvas({ url: `users/${id}/enrollments`, params: {
+      role: 'StudentEnrollment',
+      state: ['active'],
+      per_page: 100
+}
+    })
+    .then(result => {
+      commit('ADD_CANVAS_STUDENTS', result.data)
+    })
+  },
   getCanvasStudents({ commit, rootState }) {
     commit('CLEAR_CANVAS_STUDENTS')
     const canvas = rootState.fbFunctions.httpsCallable('canvasFetch')
     canvas({ url: 'accounts/1/users', params: {
-      enrollment_type: 'StudentEnrollment',
-      per_page: 100
+      enrollment_type: 'Student'
+      // per_page: 100
       }
     })
     .then(result => {

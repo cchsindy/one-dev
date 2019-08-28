@@ -1,4 +1,5 @@
 const state = {
+  blackbaudSections: [],
   blackbaudStudents: []
 }
 
@@ -7,6 +8,18 @@ const getters = {
 }
 
 const actions = {
+  getBlackbaudSections({ commit, rootState }) {
+    commit('CLEAR_BB_SECTIONS')
+    const sky = rootState.fbFunctions.httpsCallable('skyapi')
+    sky({ product: 'school', url: 'academics/sections', params: {
+      level_num: 2175,
+      school_year: '2019-2020'
+      }
+    })
+    .then(result => {
+      commit('ADD_BB_SECTIONS', result.data)
+    })
+  },
   getBlackbaudStudents({ commit, rootState }) {
     commit('CLEAR_BB_STUDENTS')
     const sky = rootState.fbFunctions.httpsCallable('skyapi')
@@ -32,6 +45,12 @@ const actions = {
 }
 
 const mutations = {
+  ADD_BB_SECTIONS(state, data) {
+    state.blackbaudSections = data
+  },
+  CLEAR_BB_SECTIONS(state) {
+    state.blackbaudSections = []
+  },
   ADD_BB_STUDENTS(state, data) {
     state.blackbaudStudents = data
   },
