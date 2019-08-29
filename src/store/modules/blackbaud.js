@@ -32,7 +32,7 @@ const actions = {
       commit('ADD_BB_SECTIONS', s)
     })
   },
-  getBlackbaudStudents({ commit, dispatch, rootState, state }) {
+  getBlackbaudStudents({ commit, rootState }) { // dispatch, state
     commit('CLEAR_BB_STUDENTS')
     const sky = rootState.fbFunctions.httpsCallable('skyapi')
     sky({ product: 'school', url: 'users/extended', params: {
@@ -52,16 +52,16 @@ const actions = {
         })
       }
       commit('ADD_BB_STUDENTS', s)
-      let i = 0
-      state.interval = setInterval(() => {
-        dispatch('getBlackbaudStudentEnrollments', i)
-        i++
-      }, 250)
+      // let i = 0
+      // state.interval = setInterval(() => {
+      //   dispatch('getBlackbaudStudentEnrollments', i)
+      //   i++
+      // }, 250)
     })
   },
   getBlackbaudStudentEnrollments({ commit, rootState, state }, index) {
     if (index >= state.blackbaudStudents.length) {
-      clearInterval(state.interval)
+      // clearInterval(state.interval)
     } else {
       const id = state.blackbaudStudents[index].id
       const sky = rootState.fbFunctions.httpsCallable('skyapi')

@@ -5,6 +5,7 @@ import announcements from '@/store/modules/announcements'
 import blackbaud from '@/store/modules/blackbaud'
 import canvas from '@/store/modules/canvas'
 import user from '@/store/modules/user'
+import table from '@/store/modules/table.json'
 
 Vue.use(Vuex)
 
@@ -19,6 +20,7 @@ export default new Vuex.Store({
     fbAuth: firebase.myAuth,
     fbFunctions: firebase.myFunctions,
     fbGoogle: firebase.myGoogle,
-    fbStore: firebase.myStore
+    fbStore: firebase.myStore,
+    table
   }
 })
