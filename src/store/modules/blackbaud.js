@@ -1,4 +1,5 @@
 const state = {
+  blackbaudEnrollments: [],
   blackbaudSections: [],
   blackbaudStudents: []
 }
@@ -17,10 +18,22 @@ const actions = {
       }
     })
     .then(result => {
-      commit('ADD_BB_SECTIONS', result.data)
+      const s = []
+      for (const r of result.data.value) {
+        if (r.duration.name === '1st Semester')
+        s.push({
+          id: r.id,
+          code: r.course_code,
+          name: r.name,
+          year: r.school_year,
+          section: r.section_identifier,
+          term: r.duration.name
+        })
+      }
+      commit('ADD_BB_SECTIONS', s)
     })
   },
-  getBlackbaudStudents({ commit, rootState }) {
+  getBlackbaudStudents({ commit, dispatch, rootState }) {
     commit('CLEAR_BB_STUDENTS')
     const sky = rootState.fbFunctions.httpsCallable('skyapi')
     sky({ product: 'school', url: 'users/extended', params: {
@@ -40,11 +53,44 @@ const actions = {
         })
       }
       commit('ADD_BB_STUDENTS', s)
+      let i = 0
+      const job = setInterval(() => {
+        dispatch('getBlackbaudStudentEnrollments', i)
+        if (i === s.length) {
+          clearInterval(job)
+        } else {
+          i++
+        }
+      }, 250)
+    })
+  },
+  getBlackbaudStudentEnrollments({ commit, rootState, state }, index) {
+    const id = state.blackbaudStudents[index].id
+    const sky = rootState.fbFunctions.httpsCallable('skyapi')
+    sky({ product: 'school', url: `academics/enrollments/${id}`, params: {
+      school_year: '2019-2020'
+      }
+    })
+    .then(result => {
+      const e = []
+      for (const r of result.data.value) {
+        if (r.duration_name === '1st') {
+          e.push({
+              code: r.course_code,
+              name: r.course_title,
+              section: r.section_identifier
+          })
+        }
+      }
+      commit('ADD_BB_ENROLLMENT', { index, enrollments: e })
     })
   }
 }
 
 const mutations = {
+  ADD_BB_ENROLLMENT(state, data) {
+    state.blackbaudStudents[data.index].enrollments = data.enrollments
+  },
   ADD_BB_SECTIONS(state, data) {
     state.blackbaudSections = data
   },
