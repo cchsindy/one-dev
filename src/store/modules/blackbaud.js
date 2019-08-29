@@ -1,11 +1,10 @@
 const state = {
-  blackbaudEnrollments: [],
   blackbaudSections: [],
-  blackbaudStudents: []
+  blackbaudStudents: [],
+  interval: null
 }
 
 const getters = {
-
 }
 
 const actions = {
@@ -33,7 +32,7 @@ const actions = {
       commit('ADD_BB_SECTIONS', s)
     })
   },
-  getBlackbaudStudents({ commit, dispatch, rootState }) {
+  getBlackbaudStudents({ commit, dispatch, rootState, state }) {
     commit('CLEAR_BB_STUDENTS')
     const sky = rootState.fbFunctions.httpsCallable('skyapi')
     sky({ product: 'school', url: 'users/extended', params: {
@@ -54,36 +53,36 @@ const actions = {
       }
       commit('ADD_BB_STUDENTS', s)
       let i = 0
-      const job = setInterval(() => {
+      state.interval = setInterval(() => {
         dispatch('getBlackbaudStudentEnrollments', i)
-        if (i === s.length) {
-          clearInterval(job)
-        } else {
-          i++
-        }
+        i++
       }, 250)
     })
   },
   getBlackbaudStudentEnrollments({ commit, rootState, state }, index) {
-    const id = state.blackbaudStudents[index].id
-    const sky = rootState.fbFunctions.httpsCallable('skyapi')
-    sky({ product: 'school', url: `academics/enrollments/${id}`, params: {
-      school_year: '2019-2020'
-      }
-    })
-    .then(result => {
-      const e = []
-      for (const r of result.data.value) {
-        if (r.duration_name === '1st') {
-          e.push({
-              code: r.course_code,
-              name: r.course_title,
-              section: r.section_identifier
-          })
+    if (index >= state.blackbaudStudents.length) {
+      clearInterval(state.interval)
+    } else {
+      const id = state.blackbaudStudents[index].id
+      const sky = rootState.fbFunctions.httpsCallable('skyapi')
+      sky({ product: 'school', url: `academics/enrollments/${id}`, params: {
+        school_year: '2019-2020'
         }
-      }
-      commit('ADD_BB_ENROLLMENT', { index, enrollments: e })
-    })
+      })
+      .then(result => {
+        const e = []
+        for (const r of result.data.value) {
+          if (r.duration_name === '1st') {
+            e.push({
+                code: r.course_code,
+                name: r.course_title,
+                section: r.section_identifier
+            })
+          }
+        }
+        commit('ADD_BB_ENROLLMENT', { index, enrollments: e })
+      })
+    }
   }
 }
 

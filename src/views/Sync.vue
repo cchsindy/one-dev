@@ -1,28 +1,28 @@
 <template>
   <div>
     <h1>Blackbaud-Canvas Sync</h1>
-    <BaseButton @click="getFirst">Get First</BaseButton>
+    <BaseButton @click="runSync">Run Sync</BaseButton>
+    <StudentItem v-for="item in bbStudents" :key="item.id" :item="item"/>
   </div>
 </template>
 
 <script>
-import { mapGetters, mapState } from 'vuex'
+import { mapState } from 'vuex'
+import StudentItem from '@/components/sync/StudentItem'
 
 export default {
+  components: {
+    StudentItem
+  },
   computed: {
-    ...mapGetters([]),
     ...mapState({
       bbStudents: state => state.blackbaud.blackbaudStudents
     })
   },
   methods: {
-    getFirst() {
-      this.$store.dispatch('getBlackbaudStudentEnrollments', 0)
+    runSync() {
+      this.$store.dispatch('getBlackbaudStudents')
     }
-  },
-  created() {
-    this.$store.dispatch('getBlackbaudStudents')
-    // this.$store.dispatch('getCanvasCourses', 2359)
   }
 }
 </script>
