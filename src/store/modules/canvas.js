@@ -17,18 +17,19 @@ const actions = {
 }
     })
     .then(result => {
+      // change to one call and move most to cloud functions
       commit('ADD_CANVAS_STUDENTS', result.data)
     })
-  },
-  getCanvasStudents({ commit, rootState }) {
-    commit('CLEAR_CANVAS_STUDENTS')
-    const canvas = rootState.fbFunctions.httpsCallable('canvasFetch')
-    canvas({ url: 'accounts/1/users', params: {
-      enrollment_type: 'Student'
+  }
+  // getCanvasStudents({ commit, rootState }) {
+  //   commit('CLEAR_CANVAS_STUDENTS')
+  //   const canvas = rootState.fbFunctions.httpsCallable('canvasFetch')
+  //   canvas({ url: 'accounts/1/users', params: {
+  //     enrollment_type: 'Student'
       // per_page: 100
-      }
-    })
-    .then(result => {
+    //   }
+    // })
+    // .then(result => {
       // const s = []
       // for (const r of result.data) {
       //   s.push({
@@ -40,9 +41,9 @@ const actions = {
       //     grade_level: r.student_info.grade_level_description
       //   })
       // }
-      commit('ADD_CANVAS_STUDENTS', result.data)
-    })
-  }
+    //   commit('ADD_CANVAS_STUDENTS', result.data)
+    // })
+  // }
 }
 
 const mutations = {
