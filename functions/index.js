@@ -24,19 +24,61 @@ exports.canvas = functions.https.onCall(async (data, context) => {
   return grades
 })
 
-exports.canvasFetch = functions.https.onCall(async (data, context) => {
+exports.canvasFetch = functions.https.onCall(async data => {
   const cs = new CanvasService
   const response = await cs.fetchData(data.url, data.params)
   return response
 })
 
-exports.canvasDelete = functions.https.onCall(async (data, context) => {
+exports.canvasDelete = functions.https.onCall(async data => {
   const cs = new CanvasService
   const response = await cs.deleteData(data.url, data.params)
   return response
 })
 
-exports.onapi = functions.https.onCall(async (data, context) => {
+exports.canvasSync = functions.https.onCall(async () => {
+  try {
+    const students = []
+    const fs = new FirestoreService
+    const token = await fs.loadSkyToken('school')
+    const ss = new SkyService(token)
+    const cs = new CanvasService
+    let res = await ss.getData('school/v1/users/extended', { base_role_ids: '14' })
+    if (!res) {
+      const newToken = await ss.refreshToken()
+      if (newToken) {
+        await fs.saveSkyToken('school', newToken)
+        res = await ss.getData('school/v1/users/extended', { base_role_ids: '14' })
+      } 
+    }
+    for (const r of res.value) {
+      const s = {
+        id: r.id,
+        host_id: r.host_id,
+        last_name: r.last_name,
+        first_name: r.first_name,
+        nick_name: r.nick_name,
+        grade_level: r.student_info.grade_level_description
+      }
+      // get blackbaud enrollments
+      const blackbaud = await ss.getData(`school/v1/academics/enrollments/${r.id}`, { school_year: '2019-2020' })
+      s.blackbaud = blackbaud.value
+      // get canvas enrollments
+      // const canvas = await cs.fetchData(`users/${id}/enrollments`, {
+      //   role: 'StudentEnrollment',
+      //   state: ['active'],
+      //   per_page: 100
+      // })
+      // s.canvas = canvas.data
+      students.push(s)
+    }
+    return students
+  } catch (err) {
+    return err
+  }
+})
+
+exports.onapi = functions.https.onCall(async data => {
   try {
     const fs = new FirestoreService
     const token = await fs.loadOnToken()
@@ -56,7 +98,7 @@ exports.onapi = functions.https.onCall(async (data, context) => {
   }
 })
 
-exports.skyapi = functions.https.onCall(async (data, context) => {
+exports.skyapi = functions.https.onCall(async data => {
   try {
     const fs = new FirestoreService
     const token = await fs.loadSkyToken(data.product)
