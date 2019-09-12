@@ -34,7 +34,7 @@ const actions = {
   },
   getBlackbaudStudents({ commit, rootState }) { // dispatch, state
     commit('CLEAR_BB_STUDENTS')
-    const sync = rootState.fbFunctions.httpsCallable('canvasSync')
+    const sync = rootState.fbFunctions.httpsCallable('canvasSync') //, { timeout: 120000 })
     sync().then(result => {
       commit('ADD_BB_STUDENTS', result.data)
       // let i = 0

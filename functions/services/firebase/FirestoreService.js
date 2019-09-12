@@ -1,21 +1,8 @@
 module.exports = class FirestoreService {
   constructor() {
     const admin = require('firebase-admin')
-    const serviceAccount = require('./serviceAccountKey.json')
-    // if (!admin.apps.length) {
-    //   admin.initializeApp({
-    //     credential: admin.credential.cert(serviceAccount),
-    //     databaseURL: 'https://my-covenant-dev.firebaseio.com'
-    //   })
-    // }
-    try {
-      admin.initializeApp({
-        credential: admin.credential.cert(serviceAccount),
-        databaseURL: 'https://my-covenant-dev.firebaseio.com'
-      })
-    } catch (err) {
-      // do nothing
-    }
+    const functions = require('firebase-functions')
+    admin.initializeApp(functions.config().firebase)
     this.myStore = admin.firestore()
   }
 
