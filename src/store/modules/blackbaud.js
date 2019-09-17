@@ -1,7 +1,8 @@
 const state = {
   blackbaudSections: [],
   blackbaudStudents: [],
-  interval: null
+  interval: null,
+  stud: null
 }
 
 const getters = {
@@ -44,8 +45,9 @@ const actions = {
       // }, 250)
     })
   },
-  syncStudent(student) {
-    console.log(student)
+  syncStudent({ commit }, student) {
+    commit('SET_STUD', student)
+    console.log(student.last_name)
   },
   getBlackbaudStudentEnrollments({ commit, rootState, state }, index) {
     if (index >= state.blackbaudStudents.length) {
@@ -89,6 +91,9 @@ const mutations = {
   },
   CLEAR_BB_STUDENTS(state) {
     state.blackbaudStudents = []
+  },
+  SET_STUD(state, data) {
+    state.stud = data
   }
 }
 
