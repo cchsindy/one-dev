@@ -3,17 +3,17 @@
     <h1>Blackbaud-Canvas Sync</h1>
     <BaseButton @click="getCanvas">Get Canvas</BaseButton>
     <BaseButton @click="runSync">Run Sync</BaseButton>
-    <StudentItem v-for="item in bbStudents" :key="item.id" :item="item"/>
+    <!-- <StudentItem v-for="item in bbStudents" :key="item.id" :item="item"/> -->
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex'
-import StudentItem from '@/components/sync/StudentItem'
+// import StudentItem from '@/components/sync/StudentItem'
 
 export default {
   components: {
-    StudentItem
+    // StudentItem
   },
   computed: {
     ...mapState({

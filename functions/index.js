@@ -51,7 +51,7 @@ exports.canvasSync = functions.https.onCall(async () => {
         res = await ss.getData('school/v1/users/extended', { base_role_ids: '14' })
       } 
     }
-    let i = 0
+    // let i = 0
     for (const r of res.value) {
       const s = {
         id: r.id,
@@ -62,11 +62,11 @@ exports.canvasSync = functions.https.onCall(async () => {
         grade_level: r.student_info.grade_level_description
       }
       // get blackbaud enrollments
-      if (i < 10) {
-        const blackbaud = await ss.getData(`school/v1/academics/enrollments/${r.id}`, { school_year: '2019-2020' })
-        s.blackbaud = blackbaud.value
-      }
-      i++
+      // if (i < 10) {
+      //   const blackbaud = await ss.getData(`school/v1/academics/enrollments/${r.id}`, { school_year: '2019-2020' })
+      //   s.blackbaud = blackbaud.value
+      // }
+      // i++
       // get canvas enrollments
       // const canvas = await cs.fetchData(`users/${id}/enrollments`, {
       //   role: 'StudentEnrollment',
