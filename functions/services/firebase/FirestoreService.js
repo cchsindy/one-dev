@@ -2,7 +2,11 @@ module.exports = class FirestoreService {
   constructor() {
     const admin = require('firebase-admin')
     const functions = require('firebase-functions')
-    admin.initializeApp(functions.config().firebase)
+    try {
+      admin.initializeApp(functions.config().firebase)
+    } catch (err) {
+      console.log(err)
+    }
     this.myStore = admin.firestore()
   }
 

@@ -1,8 +1,8 @@
 <template>
   <div>
     <h1>Blackbaud-Canvas Sync</h1>
-    <BaseButton @click="getCanvas">Get Canvas</BaseButton>
-    <BaseButton @click="runSync">Run Sync</BaseButton>
+    <BaseButton @click="getStudents">Get Current Students</BaseButton>
+    <h2>{{ bbStudents.length }}</h2>
     <!-- <StudentItem v-for="item in bbStudents" :key="item.id" :item="item"/> -->
   </div>
 </template>
@@ -25,7 +25,7 @@ export default {
     getCanvas() {
       this.$store.dispatch('getCanvasCourses', this.lookup.filter(t => t.sis == this.bbStudents[0].host_id)[0].id)
     },
-    runSync() {
+    getStudents() {
       this.$store.dispatch('getBlackbaudStudents')
     }
   }
