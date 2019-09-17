@@ -44,6 +44,9 @@ const actions = {
       // }, 250)
     })
   },
+  syncStudent(student) {
+    console.log(student)
+  },
   getBlackbaudStudentEnrollments({ commit, rootState, state }, index) {
     if (index >= state.blackbaudStudents.length) {
       // clearInterval(state.interval)

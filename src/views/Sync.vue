@@ -2,7 +2,8 @@
   <div>
     <h1>Blackbaud-Canvas Sync</h1>
     <BaseButton @click="getStudents">Get Current Students</BaseButton>
-    <h2>{{ bbStudents.length }}</h2>
+    <p>{{ bbStudents.length }} current students.</p>
+    <BaseButton @click="syncEnrollments">Sync Enrollments</BaseButton>
     <!-- <StudentItem v-for="item in bbStudents" :key="item.id" :item="item"/> -->
   </div>
 </template>
@@ -27,6 +28,9 @@ export default {
     },
     getStudents() {
       this.$store.dispatch('getBlackbaudStudents')
+    },
+    syncEnrollments() {
+      this.$store.dispatch('syncStudent', this.bbStudents[0])
     }
   }
 }
