@@ -33,20 +33,37 @@ const actions = {
       commit('ADD_BB_SECTIONS', s)
     })
   },
-  getBlackbaudStudents({ commit, rootState }) { // dispatch, state
+  getBlackbaudStudents({ commit, rootState }) {
     commit('CLEAR_BB_STUDENTS')
-    const sync = rootState.fbFunctions.httpsCallable('canvasSync') //, { timeout: 120000 })
-    sync().then(result => {
-      commit('ADD_BB_STUDENTS', result.data)
-      // let i = 0
-      // state.interval = setInterval(() => {
-      //   dispatch('getBlackbaudStudentEnrollments', i)
-      //   i++
-      // }, 250)
+    const sky = rootState.fbFunctions.httpsCallable('skyapi')
+    sky({ product: 'school', url: 'users/extended', params: {
+        base_role_ids: '14'
+      }
+    })
+    .then(result => {
+      const students = []
+      for (const r of result.data.value) {
+        const s = {
+          id: r.id,
+          host_id: r.host_id,
+          last_name: r.last_name,
+          first_name: r.first_name,
+          nick_name: r.nick_name,
+          grade_level: r.student_info.grade_level_description
+        }
+        students.push(s)
+      }
+      commit('ADD_BB_STUDENTS', students)
     })
   },
   syncStudent({ commit }, student) {
     commit('SET_STUD', student)
+// `school/v1/academics/enrollments/${r.id}`, { school_year: '2019-2020' }
+// `users/${id}/enrollments`, {
+      //   role: 'StudentEnrollment',
+      //   state: ['active'],
+      //   per_page: 100
+      // }
     console.log(student.last_name)
   },
   getBlackbaudStudentEnrollments({ commit, rootState, state }, index) {
