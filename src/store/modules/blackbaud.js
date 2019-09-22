@@ -1,8 +1,5 @@
 const state = {
-  blackbaudSections: [],
-  blackbaudStudents: [],
-  interval: null,
-  stud: null
+  blackbaudStudents: []
 }
 
 const getters = {
@@ -56,15 +53,32 @@ const actions = {
       commit('ADD_BB_STUDENTS', students)
     })
   },
-  syncStudent({ commit }, student) {
-    commit('SET_STUD', student)
-// `school/v1/academics/enrollments/${r.id}`, { school_year: '2019-2020' }
+  syncStudent({ commit, rootState, state }, index) {
+    const sky = rootState.fbFunctions.httpsCallable('skyapi')
+    sky({ product: 'school', url: `academics/enrollments/${state.blackbaudStudents[index].id}`, params: {
+        school_year: '2019-2020'
+      }
+    })
+    .then(result => {
+      const courses = []
+      for (const r of result.data.value) {
+        if (r.duration_name === '1st') {
+          const c = {
+            id: r.id,
+            code: r.course_code,
+            dropped: r.dropped,
+            section: r.section_identifier
+          }
+          courses.push(c)
+        }
+      }
+      commit('ADD_BB_COURSES', { index, courses })
+    })
 // `users/${id}/enrollments`, {
       //   role: 'StudentEnrollment',
       //   state: ['active'],
       //   per_page: 100
       // }
-    console.log(student.last_name)
   },
   getBlackbaudStudentEnrollments({ commit, rootState, state }, index) {
     if (index >= state.blackbaudStudents.length) {
@@ -109,8 +123,8 @@ const mutations = {
   CLEAR_BB_STUDENTS(state) {
     state.blackbaudStudents = []
   },
-  SET_STUD(state, data) {
-    state.stud = data
+  ADD_BB_COURSES(state, data) {
+    state.blackbaudStudents[data.index].bb_courses = data.courses
   }
 }
 

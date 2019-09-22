@@ -30,7 +30,7 @@ export default {
       this.$store.dispatch('getBlackbaudStudents')
     },
     syncEnrollments() {
-      this.$store.dispatch('syncStudent', this.bbStudents[0])
+      this.$store.dispatch('syncStudent', 1)
     }
   }
 }
