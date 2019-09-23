@@ -4,17 +4,17 @@
     <BaseButton @click="getStudents">Get Current Students</BaseButton>
     <p>{{ bbStudents.length }} current students.</p>
     <BaseButton @click="syncEnrollments">Sync Enrollments</BaseButton>
-    <!-- <StudentItem v-for="item in bbStudents" :key="item.id" :item="item"/> -->
+    <StudentItem v-for="item in bbStudents" :key="item.id" :item="item"/>
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex'
-// import StudentItem from '@/components/sync/StudentItem'
+import StudentItem from '@/components/sync/StudentItem'
 
 export default {
   components: {
-    // StudentItem
+    StudentItem
   },
   computed: {
     ...mapState({
@@ -23,14 +23,14 @@ export default {
     })
   },
   methods: {
-    getCanvas() {
-      this.$store.dispatch('getCanvasCourses', this.lookup.filter(t => t.sis == this.bbStudents[0].host_id)[0].id)
-    },
     getStudents() {
       this.$store.dispatch('getBlackbaudStudents')
     },
     syncEnrollments() {
-      this.$store.dispatch('syncStudent', 1)
+      for (let i = 0; i < 10; i++) {
+        this.$store.dispatch('syncStudent', i)
+
+      }
     }
   }
 }

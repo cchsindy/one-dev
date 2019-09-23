@@ -2,8 +2,12 @@
   <div class="student-item">
     <b>{{item.last_name}},
     {{item.first_name}}:</b>
-    <span v-for="section in item.enrollments" :key="section.code">
-      {{section.name}}
+    <span class="bb" v-for="bb in item.bb_courses" :key="bb.id">
+      {{bb.code}}
+    </span>
+    ::
+    <span class="canvas" v-for="c in item.canvas_courses" :key="c.id">
+      {{c.code}}
     </span>
   </div>
 </template>
@@ -15,10 +19,21 @@
         type: Object,
         required: true
       }
+    },
+    watch: {
+      event: {
+        handler: function() {},
+        deep: true
+      }
     }
   }
 </script>
 
 <style scoped>
-
+.bb {
+  background: cyan;
+}
+.canvas {
+  background: magenta;
+}
 </style>

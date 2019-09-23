@@ -73,12 +73,32 @@ const actions = {
         }
       }
       commit('ADD_BB_COURSES', { index, courses })
+      const canvasId = rootState.table.filter(t => t.sis == state.blackbaudStudents[index].host_id)[0].id
+      const canvas = rootState.fbFunctions.httpsCallable('canvasFetch')
+      canvas({ url: `users/${canvasId}/enrollments`, params: {
+        role: 'StudentEnrollment',
+        state: ['active'],
+        per_page: 100
+        }
+      })
+      .then(result => {
+        const canvasCourses = []
+        for (const r of result.data) {
+          if (r.sis_section_id) {
+            const section = r.sis_section_id.split('|')
+            if (section[0] === '1920' && section[3] === 'S1') {
+              const c = {
+                id: r.id,
+                code: section[1],
+                section: section[2]
+              }
+              canvasCourses.push(c)
+            }
+          }
+        }
+        commit('ADD_CANVAS_COURSES', { index, canvasCourses })
+      })
     })
-// `users/${id}/enrollments`, {
-      //   role: 'StudentEnrollment',
-      //   state: ['active'],
-      //   per_page: 100
-      // }
   },
   getBlackbaudStudentEnrollments({ commit, rootState, state }, index) {
     if (index >= state.blackbaudStudents.length) {
@@ -125,6 +145,9 @@ const mutations = {
   },
   ADD_BB_COURSES(state, data) {
     state.blackbaudStudents[data.index].bb_courses = data.courses
+  },
+  ADD_CANVAS_COURSES(state, data) {
+    state.blackbaudStudents[data.index].canvas_courses = data.canvasCourses
   }
 }
 
