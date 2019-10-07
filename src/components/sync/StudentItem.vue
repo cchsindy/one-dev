@@ -32,6 +32,7 @@
                     && this.item.bb_courses[i].section === this.item.canvas_courses[j].section) {
                   this.item.bb_courses[i].code += '*'
                   this.item.canvas_courses[j].code += '*'
+                  // flag each item as synced: true / false
                   // this.item.bb_courses.splice(i, 1)
                   // this.item.canvas_courses.splice(j, 1)
                 }
