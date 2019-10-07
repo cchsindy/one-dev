@@ -53,7 +53,7 @@ const actions = {
       commit('ADD_BB_STUDENTS', students)
     })
   },
-  syncStudent({ commit, rootState, state }, index) {
+  syncStudent({ commit, rootState, state }, { index, vm }) {
     const sky = rootState.fbFunctions.httpsCallable('skyapi')
     sky({ product: 'school', url: `academics/enrollments/${state.blackbaudStudents[index].id}`, params: {
         school_year: '2019-2020'
@@ -72,7 +72,7 @@ const actions = {
           courses.push(c)
         }
       }
-      commit('ADD_BB_COURSES', { index, courses })
+      commit('ADD_BB_COURSES', { index, courses, vm })
       const canvasId = rootState.table.filter(t => t.sis == state.blackbaudStudents[index].host_id)[0].id
       const canvas = rootState.fbFunctions.httpsCallable('canvasFetch')
       canvas({ url: `users/${canvasId}/enrollments`, params: {
@@ -96,7 +96,7 @@ const actions = {
             }
           }
         }
-        commit('ADD_CANVAS_COURSES', { index, canvasCourses })
+        commit('ADD_CANVAS_COURSES', { index, canvasCourses, vm })
       })
     })
   },
@@ -144,10 +144,10 @@ const mutations = {
     state.blackbaudStudents = []
   },
   ADD_BB_COURSES(state, data) {
-    state.blackbaudStudents[data.index].bb_courses = data.courses
+    data.vm.$set(state.blackbaudStudents[data.index], 'bb_courses', data.courses)
   },
   ADD_CANVAS_COURSES(state, data) {
-    state.blackbaudStudents[data.index].canvas_courses = data.canvasCourses
+    data.vm.$set(state.blackbaudStudents[data.index], 'canvas_courses', data.canvasCourses)
   }
 }
 

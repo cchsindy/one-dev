@@ -19,12 +19,6 @@
         type: Object,
         required: true
       }
-    },
-    watch: {
-      event: {
-        handler: function() {},
-        deep: true
-      }
     }
   }
 </script>

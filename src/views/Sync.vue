@@ -28,8 +28,7 @@ export default {
     },
     syncEnrollments() {
       for (let i = 0; i < 10; i++) {
-        this.$store.dispatch('syncStudent', i)
-
+        this.$store.dispatch('syncStudent', { index: i, vm: this })
       }
     }
   }
