@@ -1,5 +1,5 @@
 <template>
-  <div class="student-item">
+  <div v-if="notSynced" class="student-item">
     <b>{{item.last_name}},
     {{item.first_name}}:</b>
     <span class="bb" v-for="bb in item.bb_courses" :key="bb.id">
@@ -22,6 +22,16 @@
       item: {
         type: Object,
         required: true
+      }
+    },
+    computed: {
+      notSynced() {
+        if (this.item.bb_courses && this.item.canvas_courses) {
+          const bb = this.item.bb_courses.findIndex(b => b.synced === false)
+          const cc = this.item.canvas_courses.findIndex(c => c.synced === false)
+          if (bb >= 0 || cc >= 0) return true
+        }
+        return false
       }
     },
     watch: {
