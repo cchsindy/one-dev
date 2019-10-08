@@ -22,14 +22,19 @@ export default {
       lookup: state => state.table
     })
   },
+  data: () => ({
+    currentIndex: 0
+  }),
   methods: {
     getStudents() {
       this.$store.dispatch('getBlackbaudStudents')
     },
     syncEnrollments() {
-      for (let i = 0; i < 10; i++) {
-        this.$store.dispatch('syncStudent', { index: i, vm: this })
-      }
+      const tick = setInterval(() => {
+        this.$store.dispatch('syncStudent', { index: this.currentIndex, vm: this })
+        this.currentIndex++
+        if (this.currentIndex === this.bbStudents.length) clearInterval(tick)
+      }, 2000)
     }
   }
 }

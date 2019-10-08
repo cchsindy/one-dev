@@ -67,13 +67,16 @@ const actions = {
             id: r.id,
             code: r.course_code,
             dropped: r.dropped,
-            section: r.section_identifier
+            section: r.section_identifier,
+            synced: false
           }
           courses.push(c)
         }
       }
       commit('ADD_BB_COURSES', { index, courses, vm })
-      const canvasId = rootState.table.filter(t => t.sis == state.blackbaudStudents[index].host_id)[0].id
+      const canvasId = (state.blackbaudStudents[index].grade_level === 'Freshman')
+        ? rootState.table.filter(t => t.sis == state.blackbaudStudents[index].id)[0].id
+        : rootState.table.filter(t => t.sis == state.blackbaudStudents[index].host_id)[0].id
       const canvas = rootState.fbFunctions.httpsCallable('canvasFetch')
       canvas({ url: `users/${canvasId}/enrollments`, params: {
         role: 'StudentEnrollment',
@@ -90,7 +93,8 @@ const actions = {
               const c = {
                 id: r.id,
                 code: section[1],
-                section: section[2]
+                section: section[2],
+                synced: false
               }
               canvasCourses.push(c)
             }
