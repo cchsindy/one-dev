@@ -11,6 +11,7 @@
     <p v-for="item in myData" :key="item.UserId">
       {{item.UserId}} {{item.Name}}
     </p>
+    <img :src="profileUrl">
   </div>
 </template>
 
@@ -25,6 +26,11 @@ import { setInterval } from 'timers'
         index: 0,
         timer: null,
         user: null
+      }
+    },
+    computed: {
+      profileUrl() {
+        return (this.user) ? "https://bbk12e1-cdn.myschoolcdn.com/ftpimages/1465/user/" + this.user.ProfilePhotoFile.Attachment : ''
       }
     },
     methods: {
@@ -75,7 +81,7 @@ import { setInterval } from 'timers'
       },
       getuser() {
         const d = this.$store.state.fbFunctions.httpsCallable('onapi')
-        d({ url: `list/91578`, params: {} })
+        d({ url: `user/5531012`, params: {} })
           .then(result => {
             this.user = result.data
           })
