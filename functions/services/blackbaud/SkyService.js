@@ -27,6 +27,22 @@ module.exports = class SkyService {
     }
   }
   
+  async postData(url, params) {
+    try {
+      const res = await this.sky.post(url, {
+        headers: {
+          Authorization: 'Bearer ' + this.access_token,
+          'Content-Type': 'application/json-patch+json'
+        }, 
+        params
+      })
+      return res.data
+    } catch (err) {
+      console.log(err.response.data)
+      return null
+    }
+  }
+  
   async getConstituent(id) {
     try {
       const res = await this.sky.get(`constituents/${id}`, {

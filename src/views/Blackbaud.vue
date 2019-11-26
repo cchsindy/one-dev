@@ -4,6 +4,8 @@
     <BaseInput label="Last name:" v-model="lastname"/>
     <br>
     <p>{{index}}</p>
+    <BaseButton @click="getAttendance">Get Attendance</BaseButton>
+    <BaseButton @click="postAttendance">Post Attendance</BaseButton>
     <BaseButton @click="callBB">Get Sections</BaseButton>
     <BaseButton @click="startTimer">Get Enrollment</BaseButton>
     <BaseButton @click="getMaster">Get Master</BaseButton>
@@ -26,7 +28,8 @@ import { setInterval } from 'timers'
         myData2: [ "data:text/csv;charset=utf-8," ],
         index: 0,
         timer: null,
-        user: null
+        user: null,
+        attendance: []
       }
     },
     computed: {
@@ -82,6 +85,32 @@ import { setInterval } from 'timers'
       },
       getMaster() {
         this.$store.dispatch('getMasterSchedule')
+      },
+      getAttendance() {
+        const sky = this.$store.state.fbFunctions.httpsCallable('skyapi')
+        sky({ product: 'school', url: 'attendance', params: {
+            level_id: 2175,
+            day: '2019-11-25',
+            offering_type: 1
+          }
+        })
+        .then(result => {
+          this.attendance = result.data.value
+        })
+      },
+      postAttendance() {
+        const sky = this.$store.state.fbFunctions.httpsCallable('skyapiPOST')
+        sky({ product: 'school', url: 'users/5531012/phones', params: {
+            number: '317-473-6075',
+            type_id: 5970
+            // student_user_id: 5530725,
+            // begin_date: '2018-08-17T00:00:00+00:00',
+            // end_date: '2018-08-17T00:00:00+00:00',
+            // start_time: '12:50:00',
+            // end_time: '13:35:00',
+            // excuse_type_id: 6737
+          }
+        })
       },
       getuser() {
         const d = this.$store.state.fbFunctions.httpsCallable('onapi')
