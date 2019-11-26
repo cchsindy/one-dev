@@ -6,6 +6,7 @@
     <p>{{index}}</p>
     <BaseButton @click="callBB">Get Sections</BaseButton>
     <BaseButton @click="startTimer">Get Enrollment</BaseButton>
+    <BaseButton @click="getMaster">Get Master</BaseButton>
     <BaseButton @click="csv">CSV</BaseButton>
     <BaseButton @click="getuser">Users</BaseButton>
     <p v-for="item in myData" :key="item.UserId">
@@ -78,6 +79,9 @@ import { setInterval } from 'timers'
       startTimer() {
         // this.callBB2()
         this.timer = setInterval(this.callBB2, 1000)
+      },
+      getMaster() {
+        this.$store.dispatch('getMasterSchedule')
       },
       getuser() {
         const d = this.$store.state.fbFunctions.httpsCallable('onapi')

@@ -1,4 +1,5 @@
 const state = {
+  blackbaudMaster: [],
   blackbaudStudents: []
 }
 
@@ -51,6 +52,31 @@ const actions = {
         students.push(s)
       }
       commit('ADD_BB_STUDENTS', students)
+    })
+  },
+  getMasterSchedule({ commit, rootState }) {
+    commit('CLEAR_BB_MASTER')
+    const sky = rootState.fbFunctions.httpsCallable('skyapi')
+    sky({ product: 'school', url: 'academics/schedule/master', params: {
+        level_num: 2175,
+        start_date: '2019-11-01',
+        end_date: '2019-11-01'
+      }
+    })
+    .then(result => {
+      // const students = []
+      // for (const r of result.data.value) {
+      //   const s = {
+      //     id: r.id,
+      //     host_id: r.host_id,
+      //     last_name: r.last_name,
+      //     first_name: r.first_name,
+      //     nick_name: r.nick_name,
+      //     grade_level: r.student_info.grade_level_description
+      //   }
+      //   students.push(s)
+      // }
+      commit('ADD_BB_MASTER', result.data.value)
     })
   },
   syncStudent({ commit, rootState, state }, { index, vm }) {
@@ -132,26 +158,32 @@ const actions = {
 }
 
 const mutations = {
+  ADD_BB_COURSES(state, data) {
+    data.vm.$set(state.blackbaudStudents[data.index], 'bb_courses', data.courses)
+  },
   ADD_BB_ENROLLMENT(state, data) {
     state.blackbaudStudents[data.index].enrollments = data.enrollments
+  },
+  ADD_BB_MASTER(state, data) {
+    state.blackbaudMaster = data
   },
   ADD_BB_SECTIONS(state, data) {
     state.blackbaudSections = data
   },
-  CLEAR_BB_SECTIONS(state) {
-    state.blackbaudSections = []
-  },
   ADD_BB_STUDENTS(state, data) {
     state.blackbaudStudents = data
   },
-  CLEAR_BB_STUDENTS(state) {
-    state.blackbaudStudents = []
-  },
-  ADD_BB_COURSES(state, data) {
-    data.vm.$set(state.blackbaudStudents[data.index], 'bb_courses', data.courses)
-  },
   ADD_CANVAS_COURSES(state, data) {
     data.vm.$set(state.blackbaudStudents[data.index], 'canvas_courses', data.canvasCourses)
+  },
+  CLEAR_BB_MASTER(state) {
+    state.blackbaudMaster = []
+  },
+  CLEAR_BB_SECTIONS(state) {
+    state.blackbaudSections = []
+  },
+  CLEAR_BB_STUDENTS(state) {
+    state.blackbaudStudents = []
   }
 }
 
