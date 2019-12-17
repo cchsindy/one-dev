@@ -5,6 +5,7 @@
     <br>
     <p>{{index}}</p>
     <BaseButton @click="getAttendance">Get Attendance</BaseButton>
+    <BaseButton @click="getCandidates">Get Candidates</BaseButton>
     <BaseButton @click="postAttendance">Post Attendance</BaseButton>
     <BaseButton @click="callBB">Get Sections</BaseButton>
     <BaseButton @click="startTimer">Get Enrollment</BaseButton>
@@ -29,7 +30,8 @@ import { setInterval } from 'timers'
         index: 0,
         timer: null,
         user: null,
-        attendance: []
+        attendance: [],
+        candidates: []
       }
     },
     computed: {
@@ -96,6 +98,15 @@ import { setInterval } from 'timers'
         })
         .then(result => {
           this.attendance = result.data.value
+        })
+      },
+      getCandidates() {
+        const sky = this.$store.state.fbFunctions.httpsCallable('skyapi')
+        sky({ product: 'school', url: 'admissions/candidates', params: {
+          }
+        })
+        .then(result => {
+          this.candidates = result.data.value
         })
       },
       postAttendance() {
